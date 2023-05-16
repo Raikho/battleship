@@ -1,5 +1,9 @@
 import Ship from '../ship.js';
 
-test('Example test', () => {
-    expect(Ship()).toBe(1);
+test('check length', () => {
+    expect(Ship(2)).toEqual({
+        length: 2,
+        hits: 0,
+        isSunk: false,
+    });
 });
