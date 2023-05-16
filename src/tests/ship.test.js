@@ -5,8 +5,6 @@ test('create ship with single length', () => {
         signature: [
             {x: 0, y: 0, isHit: false},
         ],
-        length: 1,
-        hits: 0,
     });
 });
 
@@ -16,8 +14,6 @@ test('create longer ship', () => {
             {x: 0, y: 0, isHit: false},
             {x: 0, y: 1, isHit: false},
         ],
-        length: 2,
-        hits: 0,
     });
 });
 
@@ -27,8 +23,6 @@ test('create horizontal ship', () => {
             {x: 0, y: 0, isHit: false},
             {x: 1, y: 0, isHit: false},
         ],
-        length: 2,
-        hits: 0,
     });
 });
 
@@ -37,12 +31,13 @@ test('check hit method', () => {
     ship.hit(1);
     expect(ship.signature[0].isHit).toBe(false);
     expect(ship.signature[1].isHit).toBe(true);
+    expect(ship.hits).toBe(1);
 });
 
-test.skip('check if ship sinks after hits', () => {
+test('check if ship sinks after hits', () => {
     let ship = new Ship(2);
-    ship.hit();
+    ship.hit(0);
     expect(ship.isSunk()).toBe(false);
-    ship.hit();
+    ship.hit(1);
     expect(ship.isSunk()).toBe(true);
 });
