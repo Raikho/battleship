@@ -1,8 +1,10 @@
-export default function Ship(length) {
-    let obj = {
-        length: length,
-        hits: 0,
-        isSunk: false,
-    };
-    return obj;
+export default class Ship {
+    constructor(length) {
+        this.length = length;
+        this.hits = 0;
+        this.isSunk = false;
+    }
+    hit() {
+        this.hits++;
+    }
 }
