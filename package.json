@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Raikho/battleship#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.21.5",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.1",
     "jest": "^29.5.0",
