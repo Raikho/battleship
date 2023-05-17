@@ -2,35 +2,26 @@ import Ship from './ship.js';
 
 export default class Gameboard {
     constructor() {
-        this.squares = [];
-        for (let x = 0; x < 10; x++) {
-            let col = [];
-            for (let i = 0; i < 10; i++)
-                col.push({isHit: false, ship: null});
-            this.squares.push(col);
-        }
         this.ships = [];
     }
 
-    addShip(length, shape, x = 0, y = 0) {
+    addShip(x, y, length = 1, shape = 'vertical') {
         if (isOutOfBounds(x, y))
             return;
         
-        let ship = new Ship(length, shape);
-        let coords = ship.segments.map(segment => {
-            return {x: segment.x+x, y: segment.y+y}
-        });
+        let ship = new Ship(x, y, length, shape);
 
-        for (let coord of coords)
-            if (isOutOfBounds(coord.x, coord.y))
-                return
-
-        for (let coord of coords)
-            if (this.squares[coord.x][coord.y].ship != null)
+        for (let segment of ship.segments)
+            if (isOutOfBounds(segment.x, segment.y))
                 return;
 
-        this.ships.push({ship, x, y});
-        coords.forEach(coord => this.squares[coord.x][coord.y].ship = ship);
+        for (let segment1 of ship.segments)
+            for (let ship2 of this.ships)
+                for (let segment2 of ship2.segments)
+                    if (segment1.x == segment2.x && segment1.y == segment2.y)
+                        return;
+
+        this.ships.push(ship);
     }
 
     receiveAttack(x, y) {
@@ -54,5 +45,5 @@ export default class Gameboard {
 }
 
 function isOutOfBounds(x, y) {
-    return (x > 10 || x < 0 || y > 10 || y < 0);
+    return (x >= 10 || x < 0 || y >= 10 || y < 0);
 }
