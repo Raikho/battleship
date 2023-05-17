@@ -27,4 +27,14 @@ body {
     background-color: var(--board-bg);
     width: 45vw;
     height: 45vw;
+
+    padding: 5px;
+
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 2px;
+}
+.board>* {
+    background-color: var(--accent);
 }

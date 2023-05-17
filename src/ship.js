@@ -1,17 +1,22 @@
 export default class Ship {
-    constructor(length, shape = 'vertical') {
+    constructor(x, y, length, shape = 'vertical') {
         this.segments = [];
         for (let i = 0; i < length; i++) {
-            let x = (shape === 'vertical') ? 0 : i;
-            let y = (shape === 'vertical') ? i : 0;
-            this.segments.push(createSegment(x, y));
+            let dx = (shape === 'vertical') ? 0 : i;
+            let dy = (shape === 'vertical') ? i : 0;
+            this.segments.push(createSegment(x + dx, y + dy));
         }
     }
     get hits() {
         return this.segments.reduce((prev, curr) => 
             prev += (curr.isHit) ? 1 : 0, 0);
     }
-    hit(segment) {this.segments[segment].isHit = true}
+    hit(x, y) {
+        this.segments.forEach(segment => {
+            if (x == segment.x && y == segment.y)
+                segment.isHit = true;
+        });
+    }
     isSunk() {return (this.hits >= this.segments.length)}
 }
 

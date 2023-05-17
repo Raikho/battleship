@@ -1,7 +1,7 @@
 import Ship from '../ship.js'
 import Gameboard from '../gameboard.js';
 
-test('10x10 array creation', () => {
+test.only('10x10 array creation', () => {
     let array2d = [];
     for (let x = 0; x < 10; x++) {
         let col = [];
