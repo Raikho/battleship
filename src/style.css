@@ -1,3 +1,30 @@
+:root {
+    --bg: darkslategray;
+    --board-bg: #94a3b8;
+    --fg: #1e293baa;
+
+    --skyBlue: #38bdf8;
+    --indigo: #050507aa;
+    --accent: #0E7490;
+}
 body {
-    background-color: darkslategray;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: helvetica, sans-serif;
+    font-size: 18px;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+.board {
+    border-radius: 4px;
+    background-color: var(--board-bg);
+    width: 45vw;
+    height: 45vw;
 }
