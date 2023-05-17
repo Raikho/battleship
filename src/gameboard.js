@@ -17,13 +17,20 @@ export default class Gameboard {
             return;
         
         let ship = new Ship(length, shape);
-        for (let segment of ship.segments)
-            if (isOutOfBounds(segment.x + x, segment.y + y))
+        let coords = ship.segments.map(segment => {
+            return {x: segment.x+x, y: segment.y+y}
+        });
+
+        for (let coord of coords)
+            if (isOutOfBounds(coord.x, coord.y))
+                return
+
+        for (let coord of coords)
+            if (this.squares[coord.x][coord.y].ship != null)
                 return;
 
         this.ships.push({ship, x, y});
-        for (let segment of ship.segments)
-            this.squares[x + segment.x][y + segment.y].ship = ship;
+        coords.forEach(coord => this.squares[coord.x][coord.y].ship = ship);
     }
 
     receiveAttack(x, y) {
@@ -36,6 +43,13 @@ export default class Gameboard {
                     segment.isHit = true;
             }
         }
+    }
+
+    areShipsSunk() {
+        for (let shipData of this.ships)
+            if (!shipData.ship.isSunk())
+                return false;
+        return true;
     }
 }
 

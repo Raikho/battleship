@@ -46,15 +46,17 @@ test('reject ship placed out of bounds', () => {
 test('reject ship that extends out of bounds', () => {
     let ship = new Ship(2, 'vertical');
     let gameboard = new Gameboard();
-    gameboard.addShip(2, 'veritcal', 10, 10);
+    gameboard.addShip(2, 'vertical', 10, 10);
     expect(gameboard.ships[0]).toBeUndefined();
 })
 
-test.skip('reject ship overlapped with another ship', () => {
-    let ship = new Ship(2, 'vertical');
+test('reject ship overlapped with another ship', () => {
     let gameboard = new Gameboard();
-    gameboard.addShip(2, 'veritcal', 11, -1);
-    expect(gameboard.ships[0]).toBeUndefined();
+    gameboard.addShip(2, 'vertical', 4, 4);
+    gameboard.addShip(2, 'vertical', 4, 5);
+    expect(gameboard.ships[1]).toBeUndefined();
+    gameboard.addShip(2, 'vertical', 4, 6);
+    expect(gameboard.ships[1]).toBeDefined();
 })
 
 test('receive attack on empty square', () => {
@@ -72,4 +74,16 @@ test('receive attack on ship', () => {
     gameboard.receiveAttack(4, 4);
     expect(gameboard.ships[0].ship.segments[0].isHit).toBe(true);
     expect(gameboard.ships[0].ship.segments[1].isHit).toBe(false);
+})
+
+test('report when all sinks are sunk', () => {
+    let gameboard = new Gameboard();
+    gameboard.addShip(2, 'vertical', 4, 4);
+    gameboard.addShip(2, 'vertical', 8, 4);
+    gameboard.receiveAttack(4, 4);
+    gameboard.receiveAttack(4, 5);
+    gameboard.receiveAttack(8, 4);
+    expect(gameboard.areShipsSunk()).toBe(false);
+    gameboard.receiveAttack(8, 5);
+    expect(gameboard.areShipsSunk()).toBe(true);
 })
