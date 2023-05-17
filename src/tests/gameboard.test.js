@@ -67,9 +67,9 @@ test('receive attack on ship', () => {
     let gameboard = new Gameboard();
     gameboard.addShip(2, 'vertical', 4, 4);
     gameboard.receiveAttack(3, 3);
-    expect(gameboard.ships[0].ship.signature[0].isHit).toBe(false);
-    expect(gameboard.ships[0].ship.signature[1].isHit).toBe(false);
+    expect(gameboard.ships[0].ship.segments[0].isHit).toBe(false);
+    expect(gameboard.ships[0].ship.segments[1].isHit).toBe(false);
     gameboard.receiveAttack(4, 4);
-    expect(gameboard.ships[0].ship.signature[0].isHit).toBe(true);
-    expect(gameboard.ships[0].ship.signature[1].isHit).toBe(false);
+    expect(gameboard.ships[0].ship.segments[0].isHit).toBe(true);
+    expect(gameboard.ships[0].ship.segments[1].isHit).toBe(false);
 })
