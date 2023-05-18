@@ -37,4 +37,13 @@ body {
 }
 .board>* {
     background-color: var(--accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ship {
+    background-color: var(--indigo);
+}
+.hit {
+    color: red;
 }
