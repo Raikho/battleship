@@ -3,11 +3,11 @@ import Ship from './ship.js';
 export default class Gameboard {
     constructor() {
         this.ships = [];
+        this.hits = [];
     }
 
     addShip(x, y, length = 1, shape = 'vertical') {
-        if (isOutOfBounds(x, y))
-            return;
+        if (isOutOfBounds(x, y)) return;
         
         let ship = new Ship(x, y, length, shape);
 
@@ -25,20 +25,21 @@ export default class Gameboard {
     }
 
     receiveAttack(x, y) {
-        this.squares[x][y] = {isHit: true};
+        for (let hit of this.hits)
+            if (hit.x == x && hit.y == y)
+                return;
 
-        for (let shipData of this.ships) {
-            let ship = shipData.ship;
-            for (let segment of ship.segments) {
-                if (segment.x + shipData.x == x && segment.y + shipData.y == y)
+        for (let ship of this.ships)
+            for (let segment of ship.segments)
+                if (segment.x == x && segment.y == y)
                     segment.isHit = true;
-            }
-        }
+
+        this.hits.push({x, y});
     }
 
     areShipsSunk() {
-        for (let shipData of this.ships)
-            if (!shipData.ship.isSunk())
+        for (let ship of this.ships)
+            if (!ship.isSunk())
                 return false;
         return true;
     }
