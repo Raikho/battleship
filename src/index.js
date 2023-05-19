@@ -3,33 +3,29 @@ import Ship from './ship.js';
 import Gameboard from './gameboard.js';
 import Player from './player.js';
 import DOM from './dom.js';
+import Game from './game.js';
 
-console.log('DOM: ', DOM); // debug
-let p1BoardNode = document.querySelector('.board.player1');
-let p2BoardNode = document.querySelector('.board.player2');
-DOM.createBoard(p1BoardNode);
-DOM.createBoard(p2BoardNode);
+const game = new Game();
 
-let player1 = new Player();
-let player2 = new Player();
+// document.addEventListener('click', tryAttack);
 
-player1.board.addShip(1, 1, 2);
-player1.board.addShip(3, 1, 2);
-player1.board.addShip(5, 1, 2);
-player1.board.addShip(7, 1, 3);
-player1.board.addShip(9, 1, 4);
+// let currentPlayer = player1;
+// let oppositePlayer = player2;
 
-player2.board.addShip(0, 1, 2);
-player2.board.addShip(2, 1, 2);
-player2.board.addShip(4, 1, 3);
-player2.board.addShip(6, 1, 4);
-player2.board.addShip(8, 1, 2);
+// function tryAttack(event) {
+//     let node = event.target;
+//     console.log('node target: ', node);
+    
+//     if (!node.classList.contains('square'))
+//         return console.log('square not clicked, retrying...');
 
-player1.board.receiveAttack(1, 2);
-player2.board.receiveAttack(7, 4);
+//     console.log(node.dataset.name, oppositePlayer.name);
+//     if (node.dataset.name === oppositePlayer.name)
+//         console.log('opposite player hit!!');
 
-DOM.updateBoard(p1BoardNode, player1.board);
-DOM.updateBoard(p2BoardNode, player2.board);
+//     document.removeEventListener('click', tryAttack);
+// }
+
 
 // GAMEMODE STATES
 // game-type-selection
