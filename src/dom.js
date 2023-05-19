@@ -1,6 +1,6 @@
 const DOM = {};
 
-DOM.createBoard = function(parent, player) {
+DOM.createBoard = function(parent, game, player) {
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
             let node = createDiv(parent);
@@ -8,6 +8,10 @@ DOM.createBoard = function(parent, player) {
             node.dataset.x = x;
             node.dataset.y = y;
             node.dataset.name = player.name;
+
+            node.onclick = () => function() {
+                game.squareClicked(x, y, player.name)
+            }();
         }
     }
 }
