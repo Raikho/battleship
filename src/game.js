@@ -26,17 +26,21 @@ export default class Game {
     }
 
     squareClicked(x, y, name) {
-        this.switchPlayer();
-        console.log(`now player: ${this.currentPlayer.name}`)
-        this.update();
-        return;
-        // console.log(`---\nsquare clicked at x: ${x}, y: ${y}, name: ${name}`);
-        // console.log(`state ${this.state}, clicking: ${name}, other state name: ${this.getOtherPlayer(this.state).name}`);
-        // if (this.state === this.name)
-        //     return console.log('hitting wrong board');
+        console.log(`---\nclicked x:${x} y:${y} | board: ${name} | turn: ${this.currentPlayer.name}`);
+        // TODO: check state
 
-        // this.p1.board.receiveAttack(x, y);
-        // this.update();
+        if (this.currentPlayer.name === name)
+            return console.log("Error: click other player's board");
+
+        let response = this.getOtherPlayer(name).board.receiveAttack(x, y);
+        console.log('response: ', response);
+        if (response.status === 'failure')
+            return;
+
+        // TODO: possibly change state
+
+        this.switchPlayer();
+        this.update();
     };
 
     switchPlayer() {
@@ -44,8 +48,7 @@ export default class Game {
     }
 
     getOtherPlayer(name) {
-        if (name === this.p1.name) return this.p2;
-        else if (name === this.p2.name) return this.p1;
+        return (this.currentPlayer.name === this.p1.name) ? this.p2 : this.p1;
     }
 
     update() {
