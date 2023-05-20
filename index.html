@@ -7,7 +7,25 @@
     <title>Battleship</title>
 <script defer src="bundle.js"></script></head>
 <body>
-    <div class="board player1"></div>
-    <div class="board player2"></div>
+    <div id="buttons">
+        <button>start</button>
+    </div>
+    <div id="boards">
+        <div class="board-container">
+            <div class="row-labels"></div>
+            <div class="board player1"></div>
+            <div class="col-labels"></div>
+            <div class="ships"></div>
+        </div>
+        <div class="board-container">
+            <div class="row-labels"></div>
+            <div class="board player2"></div>
+            <div class="col-labels"></div>
+            <div class="ships"></div>
+        </div>
+    </div>
+    <div id="logs">
+        logs
+    </div>
 </body>
 </html>
