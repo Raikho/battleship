@@ -100,6 +100,9 @@ test('generate default ships', () => {
     expect(gameboard.ships.length).toBe(5);
 })
 
-test.skip('clear board', () => {
-    ;
+test('clear board', () => {
+    gameboard.genDefaultShips();
+    gameboard.clear();
+    expect(gameboard.ships.length).toBe(0);
+    expect(gameboard.hits.length).toBe(0);
 })

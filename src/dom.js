@@ -17,6 +17,7 @@ DOM.createBoard = function(parent, game, player) {
 }
 
 DOM.updateBoard = function(parent, player) {
+    clearChildClasses(parent);
     for (let ship of player.board.ships) {
         for (let segment of ship.segments) {
             let node = parent.querySelector(
@@ -47,9 +48,14 @@ DOM.setButtons = function(game) {
     let twoPlayerNode = document.getElementById('twoPlayer');
     let computerNode = document.getElementById('computer');
     let autoGenNode = document.getElementById('autoGen');
+    let resetNode = document.getElementById('reset');
     twoPlayerNode.onclick = () => function() {game.start('twoPlayer');}();
     computerNode.onclick = () => function() {game.start('computer');}();
     autoGenNode.onclick = game.autoGen.bind(game);
+    resetNode.onclick = () => function() {
+        console.log('%crestart %cbutton pressed', 'color: skyblue', null);
+        game.updateState('start');
+    }();
 }
 
 export default DOM;
@@ -58,4 +64,12 @@ function createDiv(parent) {
     let node = document.createElement('div');
     parent.appendChild(node);
     return node;
+}
+
+function clearChildClasses(parent) {
+    const children = [...parent.childNodes];
+    for (let child of children) {
+        child.classList.remove('ship');
+        child.classList.remove('hit');
+    }
 }

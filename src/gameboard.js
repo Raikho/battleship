@@ -64,6 +64,11 @@ export default class Gameboard {
         this.addShip(7, 7, 2);
         this.addShip(9, 4, 2);
     }
+
+    clear() {
+        this.ships = [];
+        this.hits = [];
+    }
 }
 
 function isOutOfBounds(x, y) {

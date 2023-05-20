@@ -21,18 +21,20 @@ export default class Game {
             // player 1 turn (optional show board)
             // player 2 turn (optional show board)
         // results => restart
-        this.state = ''; // 'start', 'p1pick', 'p2pick', 'game', 'results'
-        this.updateState('start');
-
+        this.state = 'start'; // 'start', 'p1pick', 'p2pick', 'game', 'results'
         this.update();
-
     }
 
     updateState(state) {
+        if (this.state === state) return;
         console.log(`%cnew state: %c${state}`, '', 'color: goldenrod; font-weight: bold');
+
         this.state = state;
         switch(state) {
             case 'start':
+                this.p1.board.clear();
+                this.p2.board.clear();
+                this.update();
                 break;
             case 'p1pick':
                 this.turnPlayer = this.p1;
