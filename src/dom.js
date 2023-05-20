@@ -76,6 +76,39 @@ DOM.setButtons = function(game) {
     }();
 }
 
+DOM.updateButtons = function(state) {
+    console.log('updating buttons...');
+    switch(state) {
+        case 'start':
+            setButtonActive('twoPlayer', true);
+            setButtonActive('computer', true);
+            break;
+        case 'p1pick':
+            setButtonActive('twoPlayer', false);
+            setButtonActive('computer', false);
+            setButtonActive('autoGen', true);
+            setButtonActive('reset', true);
+            break;
+        case 'p1Confirm':
+            setButtonActive('autoGen', false);
+            setButtonActive('confirm', true);
+            break;
+        case 'p2pick':
+            setButtonActive('autoGen', true);
+            setButtonActive('confirm', false);
+            break;
+        case 'p2Confirm':
+            setButtonActive('autoGen', false);
+            setButtonActive('confirm', true);
+            break;
+        case 'game':
+            setButtonActive('confirm', false);
+            break;
+        case 'results':
+            break;
+    }
+}
+
 export default DOM;
 
 function createDiv(parent) {
@@ -90,4 +123,12 @@ function clearChildClasses(parent) {
         child.classList.remove('ship');
         child.classList.remove('hit');
     }
+}
+
+function setButtonActive(id, isActive) {
+    let node = document.getElementById(id);
+    if (isActive)
+        node.classList.add('active');
+    else
+        node.classList.remove('active');
 }

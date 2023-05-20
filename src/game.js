@@ -58,6 +58,7 @@ export default class Game {
             case 'results':
                 break;
         }
+        DOM.updateButtons(state);
     }
 
     start(type) {
