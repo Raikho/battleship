@@ -56,6 +56,14 @@ export default class Gameboard {
                 return false;
         return true;
     }
+
+    genDefaultShips() {
+        this.addShip(1, 1, 2);
+        this.addShip(3, 3, 2);
+        this.addShip(5, 5, 2);
+        this.addShip(7, 7, 2);
+        this.addShip(9, 4, 2);
+    }
 }
 
 function isOutOfBounds(x, y) {

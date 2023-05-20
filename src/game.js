@@ -35,10 +35,13 @@ export default class Game {
             case 'start':
                 break;
             case 'p1pick':
+                this.turnPlayer = this.p1;
                 break;
             case 'p2pick':
+                this.turnPlayer = this.p2;
                 break;
             case 'game':
+                this.turnPlayer = this.p1;
                 break;
             case 'results':
                 break;
@@ -55,19 +58,23 @@ export default class Game {
 
     autoGen() {
         console.log('%cautoGen %cbutton pressed', 'color: skyblue', null);
-        if (!(this.state === 'p1pick' || this.state === 'p2pick')) // differentaite sides
-            return;
-        this.createStartingShips();
-        this.createStartingAttacks(); // DEBUG
+
+        if (this.state === 'p1pick') {
+            this.p1.board.genDefaultShips();
+            this.updateState('p2pick');
+        } else if (this.state === 'p2pick') {
+            this.p2.board.genDefaultShips();
+            this.updateState('game');
+        } else return;
         this.update();
-        this.updateState('game');
-        this.turnPlayer = this.p1;
  }
 
     squareClicked(x, y, name) {
         console.log(`clicked x:%c${x}%c y:%c${y}%c | board: %c${name}%c | turn: ${this.turnPlayer.name}`,
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral', null);
         // TODO: check state
+        if (this.state != 'game')
+            return;
 
         if (this.turnPlayer.name === name)
             return console.log("Error: click other player's board");
@@ -94,22 +101,6 @@ export default class Game {
         DOM.updateBoard(boardNode1, this.p1);
         DOM.updateBoard(boardNode2, this.p2);
         DOM.updateCurrentPlayer(this.turnPlayer);
-    }
-    createStartingShips() {
-        this.p1.board.addShip(1, 1, 2);
-        this.p1.board.addShip(3, 1, 2);
-        this.p1.board.addShip(5, 1, 2);
-        this.p1.board.addShip(7, 1, 3);
-        this.p1.board.addShip(9, 1, 4);
-        this.p2.board.addShip(0, 1, 2);
-        this.p2.board.addShip(2, 1, 2);
-        this.p2.board.addShip(4, 1, 3);
-        this.p2.board.addShip(6, 1, 4);
-        this.p2.board.addShip(8, 1, 2);
-    }
-    createStartingAttacks() {
-        this.p1.board.receiveAttack(1, 2);
-        this.p2.board.receiveAttack(7, 4);
     }
 }
 

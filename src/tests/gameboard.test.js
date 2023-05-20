@@ -94,3 +94,12 @@ test('report when all sinks are sunk', () => {
         result: 'all enemy ships sunk'
     });
 })
+
+test('generate default ships', () => {
+    gameboard.genDefaultShips();
+    expect(gameboard.ships.length).toBe(5);
+})
+
+test.skip('clear board', () => {
+    ;
+})
