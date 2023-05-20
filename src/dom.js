@@ -46,8 +46,11 @@ DOM.updateCurrentPlayer = function(player) {
 DOM.setButtons = function(game) {
     let twoPlayerNode = document.getElementById('twoPlayer');
     let computerNode = document.getElementById('computer');
+    let autoGenNode = document.getElementById('autoGen');
     twoPlayerNode.onclick = () => function() {game.start('twoPlayer');}();
-    computer.onclick = () => function() {game.start('computer');}();
+    computerNode.onclick = () => function() {game.start('computer');}();
+//    autoGenNode.onclick = () => function() {game.autoGen();}();
+    autoGenNode.onclick = game.autoGen.bind(game);
 }
 
 export default DOM;

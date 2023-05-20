@@ -29,7 +29,7 @@ export default class Game {
     }
 
     updateState(state) {
-        console.log('new state: '+`%c${state}`, 'color: goldenrod; font-weight: bold');
+        console.log(`%cnew state: %c${state}`, '', 'color: goldenrod; font-weight: bold');
         this.state = state;
         switch(state) {
             case 'start':
@@ -39,25 +39,34 @@ export default class Game {
             case 'p2pick':
                 break;
             case 'game':
-                this.createStartingShips(); // DEBUG
-                this.createStartingAttacks(); // DEBUG
-                this.update();
                 break;
             case 'results':
                 break;
         }
-        this.state = state;
     }
 
     start(type) {
-        console.log(`${type} button pressed`);
+        console.log(`%c${type}`+' %cbutton pressed', 'color: skyblue', null);
         if (this.state !== 'start')
             return;
         if (type === 'twoPlayer')
-            this.updateState('p1Pick');
+            this.updateState('p1pick');
     }
+
+    autoGen() {
+        console.log('%cautoGen %cbutton pressed', 'color: skyblue', null);
+        if (!(this.state === 'p1pick' || this.state === 'p2pick')) // differentaite sides
+            return;
+        this.createStartingShips();
+        this.createStartingAttacks(); // DEBUG
+        this.update();
+        this.updateState('game');
+        this.turnPlayer = this.p1;
+ }
+
     squareClicked(x, y, name) {
-        console.log(`---\nclicked x:${x} y:${y} | board: ${name} | turn: ${this.turnPlayer.name}`);
+        console.log(`clicked x:%c${x}%c y:%c${y}%c | board: %c${name}%c | turn: ${this.turnPlayer.name}`,
+            'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral', null);
         // TODO: check state
 
         if (this.turnPlayer.name === name)
