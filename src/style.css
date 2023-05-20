@@ -47,3 +47,6 @@ body {
 .hit {
     color: red;
 }
+[data-active="true"] {
+    border: 2px solid goldenrod;
+}

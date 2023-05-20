@@ -32,6 +32,18 @@ DOM.updateBoard = function(parent, player) {
     }
 }
 
+DOM.updateCurrentPlayer = function(player) {
+    let currentNum = (player.name === 'p1') ? 1 : 2;
+    let otherNum = (player.name === 'p2') ? 1 : 2
+    console.log(`updating using name: ${player}, num: ${currentNum}, otherNum: ${otherNum}`);
+
+    let currentNode = document.querySelector(`.board.player${currentNum}`);
+    let otherNode = document.querySelector(`.board.player${otherNum}`);
+
+    currentNode.dataset.active = true;
+    otherNode.dataset.active = false;
+}
+
 export default DOM;
 
 function createDiv(parent) {
