@@ -8,28 +8,59 @@ export default class Game {
     constructor() {
         this.p1 = new Player('p1');
         this.p2 = new Player('p2');
-
+        this.turnPlayer = this.p1;
         DOM.createBoard(boardNode1, this, this.p1);
         DOM.createBoard(boardNode2, this, this.p2);
+        DOM.setButtons(this);
 
-        this.createStartingShips(); // DEBUG
-        this.createStartingAttacks(); // DEBUG
-        this.state = null;
-        this.currentPlayer = this.p1;
-        this.updateState('p1');
+        // select game type
+        // pick ships
+            // player 1 picks => pass over
+            // player 2 picks => start game
+        // start game
+            // player 1 turn (optional show board)
+            // player 2 turn (optional show board)
+        // results => restart
+        this.state = ''; // 'start', 'p1pick', 'p2pick', 'game', 'results'
+        this.updateState('start');
+
         this.update();
 
     }
 
     updateState(state) {
+        console.log('new state: '+`%c${state}`, 'color: goldenrod; font-weight: bold');
+        this.state = state;
+        switch(state) {
+            case 'start':
+                break;
+            case 'p1pick':
+                break;
+            case 'p2pick':
+                break;
+            case 'game':
+                this.createStartingShips(); // DEBUG
+                this.createStartingAttacks(); // DEBUG
+                this.update();
+                break;
+            case 'results':
+                break;
+        }
         this.state = state;
     }
 
+    start(type) {
+        console.log(`${type} button pressed`);
+        if (this.state !== 'start')
+            return;
+        if (type === 'twoPlayer')
+            this.updateState('p1Pick');
+    }
     squareClicked(x, y, name) {
-        console.log(`---\nclicked x:${x} y:${y} | board: ${name} | turn: ${this.currentPlayer.name}`);
+        console.log(`---\nclicked x:${x} y:${y} | board: ${name} | turn: ${this.turnPlayer.name}`);
         // TODO: check state
 
-        if (this.currentPlayer.name === name)
+        if (this.turnPlayer.name === name)
             return console.log("Error: click other player's board");
 
         let response = this.getOtherPlayer(name).board.receiveAttack(x, y);
@@ -44,17 +75,16 @@ export default class Game {
     };
 
     switchPlayer() {
-        this.currentPlayer = (this.currentPlayer.name === this.p1.name) ? this.p2 : this.p1;
+        this.turnPlayer = (this.turnPlayer.name === this.p1.name) ? this.p2 : this.p1;
     }
-
     getOtherPlayer(name) {
-        return (this.currentPlayer.name === this.p1.name) ? this.p2 : this.p1;
+        return (this.turnPlayer.name === this.p1.name) ? this.p2 : this.p1;
     }
 
     update() {
         DOM.updateBoard(boardNode1, this.p1);
         DOM.updateBoard(boardNode2, this.p2);
-        DOM.updateCurrentPlayer(this.currentPlayer);
+        DOM.updateCurrentPlayer(this.turnPlayer);
     }
     createStartingShips() {
         this.p1.board.addShip(1, 1, 2);
@@ -73,3 +103,4 @@ export default class Game {
         this.p2.board.receiveAttack(7, 4);
     }
 }
+
