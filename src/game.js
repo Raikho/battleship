@@ -22,6 +22,7 @@ export default class Game {
             // player 2 turn (optional show board)
         // results => restart
         this.state = 'start'; // 'start', 'p1pick', 'p2pick', 'game', 'results'
+                              // 'p1Confirm', 'p2Confirm'
         this.update();
     }
 
@@ -39,8 +40,12 @@ export default class Game {
             case 'p1pick':
                 this.turnPlayer = this.p1;
                 break;
+            case 'p1Confirm':
+                break;
             case 'p2pick':
                 this.turnPlayer = this.p2;
+                break;
+            case 'p1Confirm':
                 break;
             case 'game':
                 this.turnPlayer = this.p1;
@@ -58,15 +63,23 @@ export default class Game {
             this.updateState('p1pick');
     }
 
+    confirm() {
+        console.log('%cconfirm %cbutton pressed', 'color: skyblue', null);
+        if (this.state === 'p1Confirm')
+            this.updateState('p2pick');
+        else if (this.state === 'p2Confirm')
+            this.updateState('game');
+    }
+
     autoGen() {
         console.log('%cautoGen %cbutton pressed', 'color: skyblue', null);
 
         if (this.state === 'p1pick') {
             this.p1.board.genDefaultShips();
-            this.updateState('p2pick');
+            this.updateState('p1Confirm');
         } else if (this.state === 'p2pick') {
             this.p2.board.genDefaultShips();
-            this.updateState('game');
+            this.updateState('p2Confirm');
         } else return;
         this.update();
  }

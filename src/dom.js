@@ -48,13 +48,21 @@ DOM.setButtons = function(game) {
     let twoPlayerNode = document.getElementById('twoPlayer');
     let computerNode = document.getElementById('computer');
     let autoGenNode = document.getElementById('autoGen');
+    let confirmNode = document.getElementById('confirm');
     let resetNode = document.getElementById('reset');
+    let showP1 = {}; // TODO
+    let showP2 = {}; // TODO
     twoPlayerNode.onclick = () => function() {game.start('twoPlayer');}();
     computerNode.onclick = () => function() {game.start('computer');}();
     autoGenNode.onclick = game.autoGen.bind(game);
+    confirmNode.onclick = game.confirm.bind(game);
     resetNode.onclick = () => function() {
         console.log('%crestart %cbutton pressed', 'color: skyblue', null);
         game.updateState('start');
+    }();
+    showP1.onclick = () => function() { // TODO
+        if (game.canShow('p1'))
+            return;
     }();
 }
 
