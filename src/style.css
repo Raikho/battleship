@@ -77,6 +77,10 @@ button:hover {filter: brightness(1.1);}
 .ship {
     background-color: var(--indigo);
 }
+.hidden>.ship {
+    background-color: var(--accent);
+    border: 3px dotted var(--indigo);
+}
 .hit {
     color: red;
 }

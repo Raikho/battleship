@@ -33,6 +33,16 @@ DOM.updateBoard = function(parent, player) {
     }
 }
 
+DOM.hide = function(boardNode1, boardNode2) {
+    boardNode1.classList.add('hidden');
+    boardNode2.classList.add('hidden');
+}
+DOM.reveal = function(boardNode) {
+    console.log('classlist before revealing: ', boardNode.classList)
+    boardNode.classList.remove('hidden');
+    console.log('classlist after revealing: ', boardNode.classList)
+}
+
 DOM.updateCurrentPlayer = function(player) {
     let currentNum = (player.name === 'p1') ? 1 : 2;
     let otherNum = (player.name === 'p2') ? 1 : 2

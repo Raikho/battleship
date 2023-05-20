@@ -35,19 +35,24 @@ export default class Game {
             case 'start':
                 this.p1.board.clear();
                 this.p2.board.clear();
+                this.hide();
                 this.update();
                 break;
             case 'p1pick':
+                this.reveal(this.p1);
                 this.turnPlayer = this.p1;
                 break;
             case 'p1Confirm':
                 break;
             case 'p2pick':
+                this.hide();
+                this.reveal(this.p2);
                 this.turnPlayer = this.p2;
                 break;
-            case 'p1Confirm':
+            case 'p2Confirm':
                 break;
             case 'game':
+                this.hide();
                 this.turnPlayer = this.p1;
                 break;
             case 'results':
@@ -69,6 +74,16 @@ export default class Game {
             this.updateState('p2pick');
         else if (this.state === 'p2Confirm')
             this.updateState('game');
+    }
+
+    hide() {
+        console.log('hiding player ships');
+        DOM.hide(boardNode1, boardNode2);
+    }
+    reveal(player) {
+        console.log(`revealing %c${player.name}'s ships`, 'color: skyblue');
+        let boardNode = (player.name === this.p1.name) ? boardNode1 : boardNode2;
+        DOM.reveal(boardNode);
     }
 
     autoGen() {
