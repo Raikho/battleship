@@ -16,13 +16,30 @@ body {
     color: var(--fg);
     font-family: helvetica, sans-serif;
     font-size: 18px;
-    
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+#boards {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.board-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, min-content);
+    grid-template-rows: repeat(3, min-content);
+    grid-template-areas:
+        ". . ." 
+        ". board ."
+        ". . .";
     justify-items: center;
     align-items: center;
 }
 .board {
+    grid-area: board;
     border-radius: 4px;
     background-color: var(--board-bg);
     width: 45vw;
