@@ -33,9 +33,13 @@ DOM.updateBoard = function(parent, player) {
     clearChildClasses(parent);
     for (let ship of player.board.ships) {
         for (let segment of ship.segments) {
-            let node = parent.querySelector(
-                `[data-x="${segment.x}"][data-y="${segment.y}"]`);
+            let node = parent.querySelector(`[data-x="${segment.x}"][data-y="${segment.y}"]`);
             node.classList.add('ship');
+
+            if (segment.corner.TL) node.classList.add('cornerTL');
+            if (segment.corner.TR) node.classList.add('cornerTR');
+            if (segment.corner.BL) node.classList.add('cornerBL');
+            if (segment.corner.BR) node.classList.add('cornerBR');
 
             if (ship.isSunk())
                 node.classList.add('sunk');
@@ -159,8 +163,10 @@ function clearChildClasses(parent) {
     const children = [...parent.childNodes];
     for (let child of children) {
         child.classList.remove('ship', 'hit', 'sunk');
-        if(child.classList.contains('square'))
+        if(child.classList.contains('square')) {
             child.textContent = '';
+            child.classList.remove('cornerTL', 'cornerTR', 'cornerBL', 'cornerBR');
+        }
     }
 }
 

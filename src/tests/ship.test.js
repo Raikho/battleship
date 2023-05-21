@@ -3,7 +3,7 @@ import Ship from '../ship.js';
 test('create ship with single length', () => {
     expect(new Ship(0, 0, 1)).toEqual({
         segments: [
-            {x: 0, y: 0, isHit: false},
+            {x: 0, y: 0, isHit: false, corner: {TL: false, TR: false, BL: false, BR: false}},
         ],
     });
 });
@@ -11,8 +11,8 @@ test('create ship with single length', () => {
 test('create longer ship at coords', () => {
     expect(new Ship(4, 4, 2)).toEqual({
         segments: [
-            {x: 4, y: 4, isHit: false},
-            {x: 4, y: 5, isHit: false},
+            {x: 4, y: 4, isHit: false, corner: {TL: false, TR: false, BL: true, BR: true}},
+            {x: 4, y: 5, isHit: false, corner: {TL: true, TR: true, BL: false, BR: false}},
         ],
     });
 });
@@ -20,8 +20,8 @@ test('create longer ship at coords', () => {
 test('create horizontal ship', () => {
     expect(new Ship(0, 0, 2, 'horizontal')).toEqual({
         segments: [
-            {x: 0, y: 0, isHit: false},
-            {x: 1, y: 0, isHit: false},
+            {x: 0, y: 0, isHit: false, corner: {TL: false, TR: true, BL: false, BR: true}},
+            {x: 1, y: 0, isHit: false, corner: {TL: true, TR: false, BL: true, BR: false}},
         ],
     });
 });
