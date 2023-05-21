@@ -60,8 +60,7 @@ DOM.setButtons = function(game) {
     let autoGenNode = document.getElementById('autoGen');
     let confirmNode = document.getElementById('confirm');
     let resetNode = document.getElementById('reset');
-    let showP1 = {}; // TODO
-    let showP2 = {}; // TODO
+    let peek = document.getElementById('peek');
     twoPlayerNode.onclick = () => function() {game.start('twoPlayer');}();
     computerNode.onclick = () => function() {game.start('computer');}();
     autoGenNode.onclick = game.autoGen.bind(game);
@@ -70,10 +69,8 @@ DOM.setButtons = function(game) {
         console.log('%crestart %cbutton pressed', 'color: skyblue', null);
         game.updateState('start');
     }();
-    showP1.onclick = () => function() { // TODO
-        if (game.canShow('p1'))
-            return;
-    }();
+    peek.onmousedown = () => function() {game.reveal(game.turnPlayer);}();
+    peek.onmouseup = () => function() {game.hide();}();
 }
 
 DOM.updateButtons = function(state) {
@@ -82,6 +79,7 @@ DOM.updateButtons = function(state) {
         case 'start':
             setButtonActive('twoPlayer', true);
             setButtonActive('computer', true);
+            setButtonActive('peek', false);
             break;
         case 'p1pick':
             setButtonActive('twoPlayer', false);
@@ -103,8 +101,10 @@ DOM.updateButtons = function(state) {
             break;
         case 'game':
             setButtonActive('confirm', false);
+            setButtonActive('peek', true);
             break;
         case 'results':
+            setButtonActive('peek', false);
             break;
     }
 }

@@ -52,8 +52,9 @@ export default class Game {
             case 'p2Confirm':
                 break;
             case 'game':
-                this.hide();
                 this.turnPlayer = this.p1;
+                this.hide();
+                this.update();
                 break;
             case 'results':
                 break;
@@ -86,6 +87,9 @@ export default class Game {
         let boardNode = (player.name === this.p1.name) ? boardNode1 : boardNode2;
         DOM.reveal(boardNode);
     }
+    peek() {
+        console.log(`Peeking at ${this.turnPlayer.name}'s ships`);
+    }
 
     autoGen() {
         console.log('%cautoGen %cbutton pressed', 'color: skyblue', null);
@@ -103,7 +107,6 @@ export default class Game {
     squareClicked(x, y, name) {
         console.log(`clicked x:%c${x}%c y:%c${y}%c | board: %c${name}%c | turn: ${this.turnPlayer.name}`,
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral', null);
-        // TODO: check state
         if (this.state != 'game')
             return;
 
@@ -112,10 +115,21 @@ export default class Game {
 
         let response = this.getOtherPlayer(name).board.receiveAttack(x, y);
         console.log('response: ', response);
+        
         if (response.status === 'failure')
             return;
 
-        // TODO: possibly change state
+        switch (response.result) {
+            case 'empty square':
+                break;
+            case 'enemy ship hit':
+                break;
+            case 'enemy ship sunk':
+                break;
+            case 'all enemy ships sunk':
+                this.updateState('results');
+                break;
+        }
 
         this.switchPlayer();
         this.update();
