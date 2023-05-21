@@ -162,7 +162,6 @@ export default class Game {
         let player = this.getPlayer(playerName);
 
         this.currentShip = {length: Number(type), used: used, callback: callback};
-        console.log('new current ship: ', this.currentShip);
     }
 
     switchPlayer() {

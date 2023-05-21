@@ -67,13 +67,15 @@ button:not(.active) {
     flex-direction: column;
     justify-content: space-around;
 }
+/* =========================== Ship Labels ========================= */
 .ship-label {
     border: 1px solid #fff8;
     border-radius: 5px;
-    padding: 15px;
+    position: relative;
+    padding: 10px;
 
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
 }
 .ship-label:hover,
 .ship-label[data-used="true"]:hover {
@@ -84,6 +86,16 @@ button:not(.active) {
     background-color: #fff6;
 }
 .ship-label:active {backdrop-filter: brightness(1.1)}
+button.rotate {
+    padding: 0;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    /* top: 0px; */
+    /* display: block; */
+}
+button.rotate:hover {filter: brightness(1.1);}
+button.rotate:active {filter: brightness(0.9);}
 /* ============================= Board ============================= */
 /* ================================================================= */
 .board {
