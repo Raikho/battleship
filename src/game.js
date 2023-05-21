@@ -114,7 +114,10 @@ export default class Game {
         if (this.state === `${name}pick`) {
             if (this.currentShip) {
                 console.log('placing ship: ', this.currentShip);
-                this.turnPlayer.board.addShip(x, y, this.currentShip.length);
+                let response = this.turnPlayer.board.addShip(x, y, this.currentShip.length);
+                if (response.status === 'failure')
+                    return;
+
                 this.currentShip = null;
                 this.update();
 
