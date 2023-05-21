@@ -30,6 +30,7 @@ export default class Game {
             case 'start':
                 this.p1.board.clear();
                 this.p2.board.clear();
+                DOM.resetShipSelect();
                 this.hide();
                 this.update();
                 break;
@@ -110,12 +111,13 @@ export default class Game {
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral', null);
 
         if (this.state === `${name}pick`) {
-            if (this.currentShip) {
+            if (this.currentShip && !this.currentShip.used) {
                 console.log('placing ship: ', this.currentShip);
                 let response = this.turnPlayer.board.addShip(x, y, this.currentShip.length);
                 if (response.status === 'failure')
                     return;
 
+                this.currentShip.callback();
                 this.currentShip = null;
                 this.update();
 
@@ -154,14 +156,13 @@ export default class Game {
         DOM.post(`${nameString}, attack a square`);
         this.update();
     };
-    shipLabelClicked(playerName, index, type) {
+    shipLabelClicked(playerName, index, type, used, callback) {
         console.log(`clicked ship index:%c${index}%c type:%c${type}%c | player: %c${playerName}`,
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral');
         let player = this.getPlayer(playerName);
 
-        this.currentShip = {length: Number(type)};
-        // player.board.addShip(3, 3, Number(type));
-        // this.update();
+        this.currentShip = {length: Number(type), used: used, callback: callback};
+        console.log('new current ship: ', this.currentShip);
     }
 
     switchPlayer() {

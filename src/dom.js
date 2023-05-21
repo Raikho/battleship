@@ -76,9 +76,16 @@ DOM.setShipSelect = function(game) {
         let index = Number(node.dataset.index);
         let type = node.dataset.type;
         node.onclick = () => function() {
-            game.shipLabelClicked(playerName, index, type);
+            game.shipLabelClicked(playerName, index, type, 
+                (node.dataset.used === 'true') ? true : false,
+                () => {node.dataset.used = true;}
+            );
         }();
     }
+}
+DOM.resetShipSelect = function() {
+    for (let node of [...document.querySelectorAll('.ship-label')])
+        node.dataset.used = false;
 }
 
 DOM.setButtons = function(game) {
