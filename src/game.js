@@ -9,6 +9,7 @@ export default class Game {
         this.p1 = new Player('p1');
         this.p2 = new Player('p2');
         this.turnPlayer = this.p1;
+        this.currentShip = null;
         DOM.createBoard(boardNode1, this, this.p1);
         DOM.createBoard(boardNode2, this, this.p2);
         DOM.setShipSelect(this);
@@ -109,6 +110,20 @@ export default class Game {
     squareClicked(x, y, name) {
         console.log(`clicked x:%c${x}%c y:%c${y}%c | board: %c${name}%c | turn: ${this.turnPlayer.name}`,
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral', null);
+
+        if (this.state === `${name}pick`) {
+            if (this.currentShip) {
+                console.log('placing ship: ', this.currentShip);
+                this.turnPlayer.board.addShip(x, y, this.currentShip.length);
+                this.currentShip = null;
+                this.update();
+
+                if (this.turnPlayer.board.ships.length >= 5)
+                    this.updateState(`${name}Confirm`);
+                return;
+            }
+        }
+
         if (this.state != 'game')
             return;
 
@@ -141,8 +156,9 @@ export default class Game {
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral');
         let player = this.getPlayer(playerName);
 
-        player.board.addShip(3, 3, Number(type));
-        this.update();
+        this.currentShip = {length: Number(type)};
+        // player.board.addShip(3, 3, Number(type));
+        // this.update();
     }
 
     switchPlayer() {
