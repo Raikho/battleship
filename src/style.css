@@ -6,6 +6,9 @@
     --skyBlue: #38bdf8;
     --indigo: #050507aa;
     --accent: #0E7490;
+    --darkAmber: #451a03;
+    --darkViolet: #2e1065;
+    --darkRed: #450a0a;
 }
 body {
     height: 100vh;
@@ -86,7 +89,6 @@ button:not(.active) {
     display: grid;
     grid-template-columns: repeat(11, 1fr);
     grid-template-rows: repeat(11, 1fr);
-    gap: 2px;
 }
 .board>* {
     justify-content: center;
@@ -95,17 +97,20 @@ button:not(.active) {
 }
 .square {
     background-color: var(--accent);
+    border: 1px solid var(--board-bg);
 }
 .ship,
 .square.ship.hit {
     background-color: var(--indigo);
 }
 .hidden>.ship {
-    background-color: var(--accent);
-    border: 3px dotted var(--indigo);
+    background-color: #0E749099;
 }
 .square.hit {
     color: red;
+}
+.square.ship.hit.sunk {
+    border: none;
 }
 [data-active="true"] {
     border: 2px solid goldenrod;

@@ -36,6 +36,9 @@ DOM.updateBoard = function(parent, player) {
             let node = parent.querySelector(
                 `[data-x="${segment.x}"][data-y="${segment.y}"]`);
             node.classList.add('ship');
+
+            if (ship.isSunk())
+                node.classList.add('sunk');
         }
     }
     for (let hit of player.board.hits) {
@@ -144,8 +147,9 @@ function createDiv(parent) {
 function clearChildClasses(parent) {
     const children = [...parent.childNodes];
     for (let child of children) {
-        child.classList.remove('ship');
-        child.classList.remove('hit');
+        child.classList.remove('ship', 'hit', 'sunk');
+        if(child.classList.contains('square'))
+            child.textContent = '';
     }
 }
 
