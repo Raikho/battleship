@@ -11,6 +11,7 @@ export default class Game {
         this.turnPlayer = this.p1;
         DOM.createBoard(boardNode1, this, this.p1);
         DOM.createBoard(boardNode2, this, this.p2);
+        DOM.setShipSelect(this);
         DOM.setButtons(this);
 
         // select game type
@@ -135,6 +136,10 @@ export default class Game {
         this.switchPlayer();
         this.update();
     };
+    shipLabelClicked(playerName, index, type) {
+        console.log(`clicked ship index:%c${index}%c type:%c${type}%c | player: %c${playerName}`,
+            'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral');
+    }
 
     switchPlayer() {
         this.turnPlayer = (this.turnPlayer.name === this.p1.name) ? this.p2 : this.p1;

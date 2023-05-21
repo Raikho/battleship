@@ -67,6 +67,17 @@ DOM.updateCurrentPlayer = function(player) {
     otherNode.dataset.active = false;
 }
 
+DOM.setShipSelect = function(game) {
+    for (let node of [...document.querySelectorAll('.ship-label')]) {
+        let playerName = node.dataset.player;
+        let index = Number(node.dataset.index);
+        let type = node.dataset.type;
+        node.onclick = () => function() {
+            game.shipLabelClicked(playerName, index, type);
+        }();
+    }
+}
+
 DOM.setButtons = function(game) {
     let twoPlayerNode = document.getElementById('twoPlayer');
     let computerNode = document.getElementById('computer');

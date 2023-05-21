@@ -16,7 +16,6 @@ body {
     color: var(--fg);
     font-family: helvetica, sans-serif;
     font-size: 18px;
-    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -48,43 +47,41 @@ button:not(.active) {
     gap: 20px;
 }
 .board-container {
-    display: grid;
-    grid-template-columns: repeat(3, min-content);
-    grid-template-rows: repeat(2, min-content);
-    grid-template-areas:
-        ".   col   ."
-        "row board ships";
+    display: flex;
     justify-items: center;
     align-items: center;
+    gap: 20px;
 }
-.row-labels {
-    grid-area: row;
-}
-.col-labels {
-    grid-area: col;
-    width: 40vw;
-    border: 1px dotted yellow;
-    color: lightgray;
+.ship-container {
+    height: 35vw;
+    padding: 5px;
+    background-color: var(--board-bg);
+    border: 1px dotted #fff6;
+    border-radius: 4px;
     font-weight: bold;
 
     display: flex;
-    flex-direction: row;
-    gap: 2px;
+    flex-direction: column;
     justify-content: space-around;
 }
-.ships {
-    grid-area: ships;
+.ship-label {
+    border-radius: 5px;
+    padding: 15px;
+    
+    display: flex;
+    justify-content: center;
 }
+.ship-label:hover {background-color: #fff6;}
+.ship-label:active {backdrop-filter: brightness(1.1)}
 /* ============================= Board ============================= */
 /* ================================================================= */
 .board {
-    grid-area: board;
     border-radius: 4px;
     background-color: var(--board-bg);
-    width: 40vw;
-    height: 40vw;
+    width: 35vw;
+    height: 35vw;
 
-    padding: 0px;
+    padding: 5px;
 
     display: grid;
     grid-template-columns: repeat(11, 1fr);
