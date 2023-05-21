@@ -136,6 +136,10 @@ DOM.updateButtons = function(state) {
     }
 }
 
+DOM.post = function(message) {
+    document.getElementById('logs').textContent = message;
+}
+
 export default DOM;
 
 function createDiv(parent) {

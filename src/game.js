@@ -15,16 +15,9 @@ export default class Game {
         DOM.setShipSelect(this);
         DOM.setButtons(this);
 
-        // select game type
-        // pick ships
-            // player 1 picks => pass over
-            // player 2 picks => start game
-        // start game
-            // player 1 turn (optional show board)
-            // player 2 turn (optional show board)
-        // results => restart
-        this.state = 'start'; // 'start', 'p1pick', 'p2pick', 'game', 'results'
-                              // 'p1Confirm', 'p2Confirm'
+        // 'start', 'p1pick', 'p1Confirm', 'p2pick', 'p2Confirm', 'game', 'resulst';
+        this.state = 'start';
+        DOM.post('Select game mode');
         this.update();
     }
 
@@ -43,17 +36,22 @@ export default class Game {
             case 'p1pick':
                 this.reveal(this.p1);
                 this.turnPlayer = this.p1;
+                DOM.post('Player 1, select your ships');
                 break;
             case 'p1Confirm':
+                DOM.post('Player 1, confirm your ship placement');
                 break;
             case 'p2pick':
                 this.hide();
                 this.reveal(this.p2);
                 this.turnPlayer = this.p2;
+                DOM.post('Player 2, select your ships');
                 break;
             case 'p2Confirm':
+                DOM.post('Player 2, confirm your ship placement');
                 break;
             case 'game':
+                DOM.post('Start the game! Player 1, attack a square');
                 this.turnPlayer = this.p1;
                 this.hide();
                 this.update();
@@ -152,6 +150,8 @@ export default class Game {
         }
 
         this.switchPlayer();
+        let nameString = (this.turnPlayer === this.p1) ? 'Player 1' : 'Player 2';
+        DOM.post(`${nameString}, attack a square`);
         this.update();
     };
     shipLabelClicked(playerName, index, type) {

@@ -115,3 +115,12 @@ button:not(.active) {
 [data-active="true"] {
     border: 2px solid goldenrod;
 }
+/* ============================== Logs ============================= */
+/* ================================================================= */
+#logs {
+    background-color: var(--board-bg);
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 32px;
+    font-weight: bold;
+}
