@@ -139,15 +139,22 @@ export default class Game {
     shipLabelClicked(playerName, index, type) {
         console.log(`clicked ship index:%c${index}%c type:%c${type}%c | player: %c${playerName}`,
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral');
+        let player = this.getPlayer(playerName);
+
+        player.board.addShip(3, 3, Number(type));
+        this.update();
     }
 
     switchPlayer() {
         this.turnPlayer = (this.turnPlayer.name === this.p1.name) ? this.p2 : this.p1;
     }
+    getPlayer(name) {
+        return (this.turnPlayer.name === this.p1.name) ? this.p1 : this.p2;
+    }
     getOtherPlayer(name) {
         return (this.turnPlayer.name === this.p1.name) ? this.p2 : this.p1;
     }
-
+ 
     update() {
         DOM.updateBoard(boardNode1, this.p1);
         DOM.updateBoard(boardNode2, this.p2);

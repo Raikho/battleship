@@ -67,7 +67,7 @@ button:not(.active) {
 .ship-label {
     border-radius: 5px;
     padding: 15px;
-    
+
     display: flex;
     justify-content: center;
 }
@@ -96,7 +96,8 @@ button:not(.active) {
 .square {
     background-color: var(--accent);
 }
-.square.ship {
+.ship,
+.square.ship.hit {
     background-color: var(--indigo);
 }
 .hidden>.ship {
