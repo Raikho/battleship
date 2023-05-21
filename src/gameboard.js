@@ -72,5 +72,5 @@ export default class Gameboard {
 }
 
 function isOutOfBounds(x, y) {
-    return (x >= 10 || x < 0 || y >= 10 || y < 0);
+    return (x > 10 || x < 0 || y > 10 || y < 0);
 }

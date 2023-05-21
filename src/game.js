@@ -101,6 +101,7 @@ export default class Game {
             this.p2.board.genDefaultShips();
             this.updateState('p2Confirm');
         } else return;
+        console.log('after gen: ', this.p1);
         this.update();
  }
 

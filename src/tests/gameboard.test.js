@@ -19,11 +19,11 @@ test('reject ship placed out of bounds', () => {
 })
 
 test('reject ship that extends out of bounds', () => {
-    expect(gameboard.addShip(9, 9, 2, 'vertical')).toEqual({
+    expect(gameboard.addShip(10, 10, 2, 'vertical')).toEqual({
         status: 'failure',
         message: 'ship extends out of bounds'
     });
-    expect(gameboard.addShip(9, 9, 1, 'vertical')).toEqual({status: 'success'});
+    expect(gameboard.addShip(10, 10, 1, 'vertical')).toEqual({status: 'success'});
 })
 
 test('reject ship overlapped with another ship', () => {

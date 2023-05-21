@@ -1,17 +1,30 @@
 const DOM = {};
 
 DOM.createBoard = function(parent, game, player) {
-    for (let y = 0; y < 10; y++) {
-        for (let x = 0; x < 10; x++) {
-            let node = createDiv(parent);
-            node.classList.add('square');
-            node.dataset.x = x;
-            node.dataset.y = y;
-            node.dataset.name = player.name;
+    for (let y = 0; y < 11; y++) {
+        for (let x = 0; x < 11; x++) {
+            if (x == 0 && y == 0) {
+                let node = createDiv(parent);
+            }
+            else if (x == 0) {
+                let node = createDiv(parent);
+                node.textContent = y;
+            }
+            else if (y == 0) {
+                let node = createDiv(parent);
+                node.textContent = x;
+            }
+            else if (x != 0 && y != 0) {
+                let node = createDiv(parent);
+                node.classList.add('square');
+                node.dataset.x = x;
+                node.dataset.y = y;
+                node.dataset.name = player.name;
 
-            node.onclick = () => function() {
-                game.squareClicked(x, y, player.name)
-            }();
+                node.onclick = () => function() {
+                    game.squareClicked(x, y, player.name)
+                }();
+            }
         }
     }
 }

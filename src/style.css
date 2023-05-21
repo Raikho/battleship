@@ -16,13 +16,14 @@ body {
     color: var(--fg);
     font-family: helvetica, sans-serif;
     font-size: 18px;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
-/* ================================================================= */
+/* ============================ Buttons ============================ */
 /* ================================================================= */
 #buttons {
     display: flex;
@@ -39,7 +40,7 @@ button:hover {filter: brightness(1.1);}
 button:not(.active) {
     filter: opacity(.5);
 }
-/* ================================================================= */
+/* ======================== Board Container ======================== */
 /* ================================================================= */
 #boards {
     display: flex;
@@ -49,42 +50,63 @@ button:not(.active) {
 .board-container {
     display: grid;
     grid-template-columns: repeat(3, min-content);
-    grid-template-rows: repeat(3, min-content);
+    grid-template-rows: repeat(2, min-content);
     grid-template-areas:
-        ". . ." 
-        ". board ."
-        ". . .";
+        ".   col   ."
+        "row board ships";
     justify-items: center;
     align-items: center;
 }
+.row-labels {
+    grid-area: row;
+}
+.col-labels {
+    grid-area: col;
+    width: 40vw;
+    border: 1px dotted yellow;
+    color: lightgray;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    justify-content: space-around;
+}
+.ships {
+    grid-area: ships;
+}
+/* ============================= Board ============================= */
+/* ================================================================= */
 .board {
     grid-area: board;
     border-radius: 4px;
     background-color: var(--board-bg);
-    width: 45vw;
-    height: 45vw;
+    width: 40vw;
+    height: 40vw;
 
-    padding: 5px;
+    padding: 0px;
 
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(11, 1fr);
     gap: 2px;
 }
 .board>* {
-    background-color: var(--accent);
-    display: flex;
     justify-content: center;
     align-items: center;
+    display: flex;
 }
-.ship {
+.square {
+    background-color: var(--accent);
+}
+.square.ship {
     background-color: var(--indigo);
 }
 .hidden>.ship {
     background-color: var(--accent);
     border: 3px dotted var(--indigo);
 }
-.hit {
+.square.hit {
     color: red;
 }
 [data-active="true"] {
