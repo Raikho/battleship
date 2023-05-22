@@ -31,7 +31,7 @@ export default class Gameboard {
     addModel(x, y, length = 1, shape = 'vertical') {
         let ship = new Ship(x, y, length, shape);
 
-        this.models.push({ship: ship});
+        this.models.push({ship: ship, index: null});
     }
 
     receiveAttack(x, y) {
@@ -81,6 +81,9 @@ export default class Gameboard {
         this.addModel(2, 1, 3);
         this.addModel(2, 0, 4);
         this.addModel(2, 0, 5);
+
+        for (let i = 0; i < this.models.length; i++)
+            this.models[i].index = i;
     }
 
     clear() {
