@@ -12,6 +12,7 @@ export default class Game {
         this.currentShip = null;
         DOM.createBoard(boardNode1, this, this.p1);
         DOM.createBoard(boardNode2, this, this.p2);
+        DOM.createModels(this, this.p1); // TODO
         DOM.setShipSelect(this);
         DOM.setButtons(this);
 
@@ -177,6 +178,8 @@ export default class Game {
     update() {
         DOM.updateBoard(boardNode1, this.p1);
         DOM.updateBoard(boardNode2, this.p2);
+        DOM.updateModels(this, this.p1);
+        // DOM.updateModels(this, this.p1);
         DOM.updateCurrentPlayer(this.turnPlayer);
     }
 }

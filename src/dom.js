@@ -53,6 +53,42 @@ DOM.updateBoard = function(parent, player) {
     }
 }
 
+DOM.createModels = function(game, player) {
+    for (let container of [...document.querySelectorAll(`.model-container.${player.name}`)]) {
+        let index = container.dataset.index;
+
+        let boardNode = createDiv(container);
+        boardNode.classList.add('model-board');
+
+        for (let y = 0; y < 5; y++) {
+            for (let x = 0; x < 5; x++) {
+                let node = createDiv(boardNode);
+                node.classList.add('square');
+                node.dataset.x = x;
+                node.dataset.y = y;
+            }
+        }
+    }
+}
+
+DOM.updateModels = function(game, player) {
+    for (let containerNode of [...document.querySelectorAll(`.model-container.${player.name}`)]) {
+        let index = containerNode.dataset.index;
+        let boardNode = containerNode.querySelector('.model-board');
+        clearChildClasses(boardNode);
+
+        for (let segment of player.board.models[index-1].ship.segments) {
+            let node = boardNode.querySelector(`[data-x="${segment.x}"][data-y="${segment.y}"]`);
+            node.classList.add('ship');
+
+            if (segment.corner.TL) node.classList.add('cornerTL');
+            if (segment.corner.TR) node.classList.add('cornerTR');
+            if (segment.corner.BL) node.classList.add('cornerBL');
+            if (segment.corner.BR) node.classList.add('cornerBR');
+        }
+    }
+}
+
 DOM.hide = function(boardNode1, boardNode2) {
     boardNode1.classList.add('hidden');
     boardNode2.classList.add('hidden');

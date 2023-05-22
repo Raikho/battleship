@@ -96,6 +96,30 @@ button.rotate {
 }
 button.rotate:hover {filter: brightness(1.1);}
 button.rotate:active {filter: brightness(0.9);}
+/* ============================ Models ============================= */
+.models-container {
+    background-color: var(--board-bg);
+    height: 35vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.model-container {
+    padding: 5px;
+}
+.model-board {
+    width: 50px;
+    height: 50px;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+.model-board>.square {
+    border: 1px solid #fff6;
+}
+
 /* ============================= Board ============================= */
 /* ================================================================= */
 .board {

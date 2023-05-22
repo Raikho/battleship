@@ -2,8 +2,10 @@ import Ship from './ship.js';
 
 export default class Gameboard {
     constructor() {
-        this.ships = [];
         this.hits = [];
+        this.ships = [];
+        this.models = [];
+        this.genDefaultModels();
     }
 
     addShip(x, y, length = 1, shape = 'vertical') {
@@ -24,6 +26,12 @@ export default class Gameboard {
 
         this.ships.push(ship);
         return {status: 'success'};
+    }
+
+    addModel(x, y, length = 1, shape = 'vertical') {
+        let ship = new Ship(x, y, length, shape);
+
+        this.models.push({ship: ship});
     }
 
     receiveAttack(x, y) {
@@ -58,11 +66,21 @@ export default class Gameboard {
     }
 
     genDefaultShips() {
+        this.ships = [];
         this.addShip(1, 1, 2);
         this.addShip(3, 3, 2);
         this.addShip(5, 5, 2);
         this.addShip(7, 7, 2);
         this.addShip(9, 4, 2);
+    }
+
+    genDefaultModels() {
+        this.models = [];
+        this.addModel(2, 1, 2);
+        this.addModel(2, 1, 3);
+        this.addModel(2, 1, 3);
+        this.addModel(2, 0, 4);
+        this.addModel(2, 0, 5);
     }
 
     clear() {
