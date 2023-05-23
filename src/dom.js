@@ -17,7 +17,8 @@ DOM.setModels = function(game) {
     for (let boardNode of queryArray(['modelboard'])) {
         for (let y = 0; y < 5; y++)
             for (let x = 0; x < 5; x++)
-                createDiv(boardNode, ['modelsquare']);
+                createDiv(boardNode, ['modelsquare'], 
+                    {x: x, y: y, player: boardNode.dataset.player, index: boardNode.dataset.index});
 
         boardNode.onclick = () => function() {
             game.clickModel(boardNode.dataset.player, boardNode.dataset.index);
@@ -28,8 +29,17 @@ DOM.setModels = function(game) {
 DOM.updateModels = function(game) {
     for (let player of game.players) {
         for (let model of player.models) {
-            let node = queryElement(['modelboard'], {player: player.name, index: model.index});
-            setClasslist(node, model.bools);
+            let boardNode = queryElement(['modelboard'], {player: player.name, index: model.index});
+            setClasslist(boardNode, model.bools);
+
+            for (let segment of model.ship.segments) {
+                let node = queryElement(['modelsquare'],
+                    {x: segment.x, y: segment.y, player: player.name, index: model.index});
+                setClasslist(node, {ship: true});
+                console.log(`player: ${player.name}, x: ${segment.x}, y: ${segment.y}, mIndex: ${model.index}`)
+            }
+
+            // TODO: create models
         }
     }
 }
@@ -57,9 +67,9 @@ DOM.updateGameboard = function(game) {
     for (let player of game.players) {
         for (let ship of player.board.ships) {
             for (let segment of ship.segments) {
-                let node = queryElement(['square', 'test'],
+                let node = queryElement(['square'],
                     {x: segment.x, y: segment.y, player: player.name});
-                if (segment.x == 1) console.log('node: ', node); // DEBUG
+                setClasslist(node, {...segment.bools, ship: true});
             }
         }
     }

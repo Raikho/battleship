@@ -14,10 +14,10 @@ export default class Player {
 
     generateModels() {
         this.models[0] = new Model(2, 0);
-        this.models[1] = new Model(2, 1);
-        this.models[2] = new Model(2, 2);
-        this.models[3] = new Model(2, 3);
-        this.models[4] = new Model(2, 4);
+        this.models[1] = new Model(3, 1);
+        this.models[2] = new Model(3, 2);
+        this.models[3] = new Model(4, 3);
+        this.models[4] = new Model(5, 4);
         this.models[0].selected = true;
         this.models[1].placed = true;
         // this.models[2].sunk = true;
