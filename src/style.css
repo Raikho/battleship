@@ -97,7 +97,7 @@ button.rotate {
 button.rotate:hover {filter: brightness(1.1);}
 button.rotate:active {filter: brightness(0.9);}
 /* ============================ Models ============================= */
-.models-container {
+.modelboard-container {
     background-color: var(--board-bg);
     height: 35vw;
     padding: 5px;
@@ -110,7 +110,7 @@ button.rotate:active {filter: brightness(0.9);}
 .model-container {
     padding: 5px;
 }
-.model-board {
+.modelboard {
     border: 2px solid whitesmoke;
     border-radius: 2px;
     width: 50px;
@@ -120,9 +120,11 @@ button.rotate:active {filter: brightness(0.9);}
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
 }
-.model-board.placed {border: 2px solid red;}
-.model-board>.square {border: 1px solid #fff6;}
-.model-board:hover>.square {backdrop-filter: brightness(2);}
+.modelboard.selected {border: 2px solid greenyellow;}
+.modelboard.placed {border: 2px solid yellow;}
+.modelboard.sunk {border: 2px solid orange;}
+.modelboard>.square {border: 1px solid #fff6;}
+.modelboard:hover>.square {backdrop-filter: brightness(2);}
 
 /* ============================= Board ============================= */
 /* ================================================================= */

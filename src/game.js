@@ -1,10 +1,56 @@
 import Player from './player.js'
 import DOM from './dom.js'
 
-const boardNode1 = document.querySelector('.board.player1');
-const boardNode2 = document.querySelector('.board.player2');
+// const boardNode1 = document.querySelector('.board.player1');
+// const boardNode2 = document.querySelector('.board.player2');
 
 export default class Game {
+    constructor() {
+        this.players = [new Player('p1', 0, 'player'), 
+                        new Player('p2', 1, 'player')];
+        this.turnPlayer = null;
+        this.selectedModel = null;
+        // p1pick, p1confirm, p2pick, p2confirm, game, result, aipick?
+        this.state = 'start'; 
+        
+        DOM.setButtons(this);
+        DOM.setModels(this);
+        DOM.updateModels(this);
+
+        console.log(this.players); // DEBUG
+    }
+
+    updateState(state) {
+        if (this.state === state) return;
+        this.state = state;
+        console.log(`%cnew state: %c${state}`, '', 'color: goldenrod; font-weight: bold');
+
+        switch(state) {
+            case 'start':
+                // clear board
+                // reset ship select
+                // hide boards?
+                // update ??
+                break;
+            case 'p1pick':
+
+                break;
+        }
+    }
+
+    selectGameType(type) {
+        if (this.state !== 'start') return;
+        this.players[1].type = type;
+
+        this.updateState('p1pick');
+    }
+
+    selectModel(player, index) {
+        console.log(`model clicked at ${player}, ${index}`);
+    }
+}
+
+export class Game_old {
     constructor() {
         this.p1 = new Player('p1');
         this.p2 = new Player('p2');
