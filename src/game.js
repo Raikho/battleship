@@ -16,7 +16,7 @@ export default class Game {
         DOM.setButtons(this);
         DOM.setModels(this);
         DOM.updateModels(this);
-        DOM.setBoard(this);
+        DOM.setGameboard(this);
 
         console.log(this.players); // DEBUG
     }
@@ -46,7 +46,10 @@ export default class Game {
         this.updateState('p1pick');
     }
 
-    selectModel(player, index) {
+    clickModel(player, index) {
+        console.log(`model clicked at ${player}, ${index}`);
+    }
+    clickSquare(x, y, playerName) {
         console.log(`model clicked at ${player}, ${index}`);
     }
 }

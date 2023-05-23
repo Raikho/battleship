@@ -35,15 +35,15 @@ DOM.updateModels = function(game) {
     }
 }
 
-DOM.setBoard = function(game) {
+DOM.setGameboard = function(game) {
     for (let boardNode of queryArray(['gameboard'])) {
         for (let y = 0; y < 11; y++) {
             for (let x = 0; x < 11; x++) {
                 if (x == 0 && y == 0) createDiv(boardNode);
-                else if (x == 0) createDiv(boardNode, null, y)
-                else if (y == 0) createDiv(boardNode, null, x);
+                else if (x == 0) createTextDiv(boardNode, y)
+                else if (y == 0) createTextDiv(boardNode, x);
                 else {
-                    let node = createDiv(boardNode, ['square']);
+                    let node = createDiv(boardNode, ['square'], {x: x, y: y});
                     node.onclick = () => function() {
                         game.clickSquare(x, y, boardNode.dataset.player);
                     }();
@@ -55,14 +55,23 @@ DOM.setBoard = function(game) {
 
 // ============================ MISC ==================================
 // ====================================================================
-function createDiv(parent, classArray, text) {
+function createDiv(parent, classArray, dataArray) {
     let node = document.createElement('div');
     parent.append(node);
+
     if (classArray)
         for (let cls of classArray)
             node.classList.add(cls);
-    if (text)
-        node.textContent = text;
+
+    for (let key in dataArray)
+        node.dataset[key] = dataArray[key];
+
+    return node;
+}
+function createTextDiv(parent, text) {
+    let node = document.createElement('div');
+    parent.append(node);
+    node.textContent = text;
     return node;
 }
 
