@@ -31,7 +31,7 @@ export default class Gameboard {
     addModel(x, y, length = 1, shape = 'vertical') {
         let ship = new Ship(x, y, length, shape);
 
-        this.models.push({ship: ship, index: null});
+        this.models.push({ship: ship, index: null, placed: false, sunk: false});
     }
 
     receiveAttack(x, y) {

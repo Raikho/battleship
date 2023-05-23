@@ -68,6 +68,13 @@ DOM.createModels = function(game, player) {
                 node.dataset.y = y;
             }
         }
+
+        boardNode.onclick = () => function() {
+            game.shipModelClicked(player, index);
+                // (node.dataset.used === 'true') ? true : false,
+                // () => {node.dataset.used = true;}
+            // );
+        }();
     }
 }
 
@@ -77,7 +84,18 @@ DOM.updateModels = function(game, player) {
         let boardNode = containerNode.querySelector('.model-board');
         clearChildClasses(boardNode);
 
-        for (let segment of player.board.models[index-1].ship.segments) {
+        // CHECK IF IT IS ACTIVE // TODO
+        if (game.activeModel && game.activeModel.model.index == index) {
+            let activeName = game.activeModel.player.name;
+            let activeIndex = game.activeModel.model.index;
+            console.log({activeName, activeIndex}); // DEBUG
+        }
+
+        let model = player.board.models[index];
+        if (model.placed)
+            boardNode.classList.add('placed');
+
+        for (let segment of model.ship.segments) {
             let node = boardNode.querySelector(`[data-x="${segment.x}"][data-y="${segment.y}"]`);
             node.classList.add('ship');
 
@@ -198,7 +216,7 @@ function createDiv(parent) {
 function clearChildClasses(parent) {
     const children = [...parent.childNodes];
     for (let child of children) {
-        child.classList.remove('ship', 'hit', 'sunk');
+        child.classList.remove('ship', 'hit', 'sunk', 'placed');
         if(child.classList.contains('square')) {
             child.textContent = '';
             child.classList.remove('cornerTL', 'cornerTR', 'cornerBL', 'cornerBR');

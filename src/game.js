@@ -9,10 +9,12 @@ export default class Game {
         this.p1 = new Player('p1');
         this.p2 = new Player('p2');
         this.turnPlayer = this.p1;
-        this.currentShip = null;
+        this.currentShip = null; // remove
+        this.activeModel = null;
         DOM.createBoard(boardNode1, this, this.p1);
         DOM.createBoard(boardNode2, this, this.p2);
         DOM.createModels(this, this.p1); // TODO
+        DOM.createModels(this, this.p2); // TODO
         DOM.setShipSelect(this);
         DOM.setButtons(this);
 
@@ -112,6 +114,28 @@ export default class Game {
             'color: lightcoral', null, 'color: lightcoral', null, 'color: lightcoral', null);
 
         if (this.state === `${name}pick`) {
+            let model = this.activeModel.model;
+            console.log('got this far'); // DEBUG
+
+            if (this.activeModel && !model.placed) {
+                console.log('placing ship: ', model); // DEBUG
+
+                let response = this.turnPlayer.board.addShip(x, y, model.ship.segments.length);
+                if (response.status === 'failure')
+                    return;
+
+                // this.currentShip.callback(); // TODO
+                model.placed = true;
+                this.activeModel = null;
+                this.update();
+
+                if (this.turnPlayer.board.ships.length >= 5)
+                    this.updateState(`${name}Confirm`);
+                return;
+            }
+        }
+
+        if (this.state === `${name}pick`) {
             if (this.currentShip && !this.currentShip.used) {
                 console.log('placing ship: ', this.currentShip);
                 let response = this.turnPlayer.board.addShip(x, y, this.currentShip.length);
@@ -165,6 +189,19 @@ export default class Game {
         this.currentShip = {length: Number(type), used: used, callback: callback};
     }
 
+    shipModelClicked(player, index) {
+        console.log(`clicked model index:%c${index}%c| player: %c${player.name}`,
+            'color: lightcoral', null, 'color: lightcoral');
+
+        this.activeModel = {model: player.board.models[index], player: player};
+        this.update();
+        console.log('active model: ', this.activeModel);
+
+
+        // this.currentShip = {length: Number(type), used: used, callback: callback};
+    }
+
+
     switchPlayer() {
         this.turnPlayer = (this.turnPlayer.name === this.p1.name) ? this.p2 : this.p1;
     }
@@ -179,7 +216,7 @@ export default class Game {
         DOM.updateBoard(boardNode1, this.p1);
         DOM.updateBoard(boardNode2, this.p2);
         DOM.updateModels(this, this.p1);
-        // DOM.updateModels(this, this.p1);
+        DOM.updateModels(this, this.p2);
         DOM.updateCurrentPlayer(this.turnPlayer);
     }
 }
