@@ -17,10 +17,10 @@ DOM.setModels = function(game) {
     for (let boardNode of queryArray(['modelboard'])) {
         for (let y = 0; y < 5; y++)
             for (let x = 0; x < 5; x++)
-                createDiv(boardNode, ['square'], {x: x, y: y}); // TODO is x,y needed?
+                createDiv(boardNode, ['square']);
 
         boardNode.onclick = () => function() {
-            game.selectModel(boardNode.dataset.player, boardNode.dataset.index);
+            game.clickModel(boardNode.dataset.player, boardNode.dataset.index);
         }();
     }
 }
@@ -37,17 +37,16 @@ DOM.updateModels = function(game) {
 
 DOM.setBoard = function(game) {
     for (let boardNode of queryArray(['gameboard'])) {
-        let playerName = boardNode.dataset.player; // TODO move
         for (let y = 0; y < 11; y++) {
             for (let x = 0; x < 11; x++) {
-                if (x == 0 && y == 0)
-                    createDiv(boardNode);
-                else if (x == 0)
-                    createTextDiv(boardNode, y)
-                else if (y == 0)
-                    createTextDiv(boardNode, x);
+                if (x == 0 && y == 0) createDiv(boardNode);
+                else if (x == 0) createDiv(boardNode, null, y)
+                else if (y == 0) createDiv(boardNode, null, x);
                 else {
                     let node = createDiv(boardNode, ['square']);
+                    node.onclick = () => function() {
+                        game.clickSquare(x, y, boardNode.dataset.player);
+                    }();
                 }
             }
         }
@@ -56,22 +55,15 @@ DOM.setBoard = function(game) {
 
 // ============================ MISC ==================================
 // ====================================================================
-function createDiv(parent, classArray, dataObject) {
+function createDiv(parent, classArray, text) {
     let node = document.createElement('div');
     parent.append(node);
     if (classArray)
         for (let cls of classArray)
             node.classList.add(cls);
-    for (let key in dataObject) {
-        let value = dataObject[key];
-        node.dataset[key] = value;
-    }
-}
-
-function createTextDiv(parent, text) {
-    let node = document.createElement('div');
-    parent.append(node);
-    node.textContent = text;
+    if (text)
+        node.textContent = text;
+    return node;
 }
 
 function queryArray(classArray, dataObject) {

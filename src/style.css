@@ -128,7 +128,7 @@ button.rotate:active {filter: brightness(0.9);}
 
 /* ============================= Board ============================= */
 /* ================================================================= */
-.board {
+.gameboard {
     border-radius: 4px;
     background-color: var(--board-bg);
     width: 35vw;
@@ -140,7 +140,7 @@ button.rotate:active {filter: brightness(0.9);}
     grid-template-columns: repeat(11, 1fr);
     grid-template-rows: repeat(11, 1fr);
 }
-.board>* {
+.gameboard>* {
     justify-content: center;
     align-items: center;
     display: flex;

@@ -20,7 +20,7 @@ export default class Player {
         this.models[4] = new Model(2, 4);
         this.models[0].selected = true;
         this.models[1].placed = true;
-        this.models[2].sunk = true;
+        // this.models[2].sunk = true;
     }
 }
 
