@@ -17,7 +17,7 @@ DOM.setModels = function(game) {
     for (let boardNode of queryArray(['modelboard'])) {
         for (let y = 0; y < 5; y++)
             for (let x = 0; x < 5; x++)
-                createDiv(boardNode, ['square']);
+                createDiv(boardNode, ['modelsquare']);
 
         boardNode.onclick = () => function() {
             game.clickModel(boardNode.dataset.player, boardNode.dataset.index);
@@ -26,7 +26,6 @@ DOM.setModels = function(game) {
 }
 
 DOM.updateModels = function(game) {
-    console.log('updating models')
     for (let player of game.players) {
         for (let model of player.models) {
             let node = queryElement(['modelboard'], {player: player.name, index: model.index});
@@ -43,11 +42,24 @@ DOM.setGameboard = function(game) {
                 else if (x == 0) createTextDiv(boardNode, y)
                 else if (y == 0) createTextDiv(boardNode, x);
                 else {
-                    let node = createDiv(boardNode, ['square'], {x: x, y: y});
+                    let node = createDiv(boardNode, ['square', 'test'],
+                        {x: x, y: y, player: boardNode.dataset.player});
                     node.onclick = () => function() {
                         game.clickSquare(x, y, boardNode.dataset.player);
                     }();
                 }
+            }
+        }
+    }
+}
+
+DOM.updateGameboard = function(game) {
+    for (let player of game.players) {
+        for (let ship of player.board.ships) {
+            for (let segment of ship.segments) {
+                let node = queryElement(['square', 'test'],
+                    {x: segment.x, y: segment.y, player: player.name});
+                if (segment.x == 1) console.log('node: ', node); // DEBUG
             }
         }
     }
@@ -86,6 +98,15 @@ function queryArray(classArray, dataObject) {
 
 function queryElement(classArray, dataObject) {
     let string = '';
+    for (let cls of classArray)
+        string += '.' + cls;
+    for (let key in dataObject)
+        string += `[data-${key}="${dataObject[key]}"]`
+    return document.querySelector(string);
+}
+
+function queryChildElement(parentClass, classArray, dataObject) {
+    let string = ``;
     for (let cls of classArray)
         string += '.' + cls;
     for (let key in dataObject)

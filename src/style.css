@@ -123,9 +123,11 @@ button.rotate:active {filter: brightness(0.9);}
 .modelboard.selected {border: 2px solid greenyellow;}
 .modelboard.placed {border: 2px solid yellow;}
 .modelboard.sunk {border: 2px solid orange;}
-.modelboard>.square {border: 1px solid #fff6;}
 .modelboard:hover>.square {backdrop-filter: brightness(2);}
-
+.modelsquare {
+    background-color: var(--accent);
+    border: 1px solid #fff6;
+}
 /* ============================= Board ============================= */
 /* ================================================================= */
 .gameboard {

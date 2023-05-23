@@ -17,6 +17,7 @@ export default class Game {
         DOM.setModels(this);
         DOM.updateModels(this);
         DOM.setGameboard(this);
+        DOM.updateGameboard(this);
 
         console.log(this.players); // DEBUG
     }

@@ -6,6 +6,7 @@ export default class Gameboard {
         this.ships = [];
         this.models = [];
         this.genDefaultModels();
+        this.genDefaultShips();
     }
 
     addShip(x, y, length = 1, shape = 'vertical') {
