@@ -8,6 +8,7 @@ export default class Game {
     constructor() {
         this.players = [new Player('p1', 0, 'player'), 
                         new Player('p2', 1, 'player')];
+        console.log(this.players); // DEBUG
         this.turnPlayer = null;
         this.selectedModel = null;
         // p1pick, p1confirm, p2pick, p2confirm, game, result, aipick?
@@ -15,11 +16,8 @@ export default class Game {
         
         DOM.setButtons(this);
         DOM.setModels(this);
-        DOM.updateModels(this);
         DOM.setGameboard(this);
-        DOM.updateGameboard(this);
-
-        console.log(this.players); // DEBUG
+        this.update();
     }
 
     updateState(state) {
@@ -35,25 +33,77 @@ export default class Game {
                 // update ??
                 break;
             case 'p1pick':
-
+                this.turnPlayer = this.players[0];
                 break;
         }
+        DOM.updateButtons(state);
     }
 
+    // ============================ INPUT =============================
+    // ================================================================
     selectGameType(type) {
         if (this.state !== 'start') return;
+
         this.players[1].type = type;
 
         this.updateState('p1pick');
     }
 
-    clickModel(player, index) {
-        console.log(`model clicked at ${player}, ${index}`);
+    selectAutoGen() {
+        if (this.state !== 'p1pick' && this.state !== 'p2pick') return;
+
+        this.autoGen();
+
+        let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
+        this.updateState(nextState);
+        this.update();
+    }
+
+    clickModel(playerName, index) {
+        console.log(`model clicked at ${playerName}, ${index}`);
+
+        // Check state
+        this.selectModel(playerName, index)
+
+        this.update();
     }
     clickSquare(x, y, playerName) {
-        console.log(`model clicked at ${player}, ${index}`);
+        console.log(`square clicked at ${playerName}, x:${x}, y:${y}`);
+    }
+    
+    // =========================== ACTIONS ============================
+    // ================================================================
+    selectModel(playerName, index) {
+        // deselect models, select only this model
+        for (let player of this.players)
+            for (let model of player.models)
+                model.selected = false;
+
+        let model = this.getPlayer(playerName).models[index];
+        model.selected = true;
+        this.selectedModel = model;
+    }
+
+    autoGen() {
+        this.turnPlayer.board.genDefaultShips();
+        return;
+    }
+    // ============================ OUTPUT ============================
+    // ================================================================
+    update() {
+        DOM.updateModels(this);
+        DOM.updateGameboard(this);
+    }
+
+    // ============================= MISC =============================
+    // ================================================================
+    getPlayer(playerName) {
+        for (let player of this.players)
+            if (player.name === playerName)
+                return player;
     }
 }
+
 
 export class Game_old {
     constructor() {

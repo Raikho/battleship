@@ -18,15 +18,15 @@ export default class Player {
         this.models[2] = new Model(3, 2);
         this.models[3] = new Model(4, 3);
         this.models[4] = new Model(5, 4);
-        this.models[0].selected = true;
-        this.models[1].placed = true;
+        // this.models[0].selected = true;
+        // this.models[1].placed = true;
         // this.models[2].sunk = true;
     }
 }
 
 class Model {
     constructor(length, index) {
-        this.ship = new Ship(0, 0, length);
+        this.ship = new Ship(0, 0, length, 'vertical');
         this.index = index;
         this.selected = false;
         this.placed = false;
@@ -35,4 +35,5 @@ class Model {
     get bools() {
         return {selected: this.selected, placed: this.placed, sunk: this.sunk};
     }
+    // TODO  auto recenter
 }

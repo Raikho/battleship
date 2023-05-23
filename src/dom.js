@@ -10,7 +10,9 @@ DOM.setButtons = function(game) { // TODO refactor
     let peek = document.getElementById('peek');
 
     twoPlayerNode.onclick = () => function() {game.selectGameType('player');}();
-    computerNode.onclick = () => function() {game.selectGameType('computer');}();    
+    computerNode.onclick = () => function() {game.selectGameType('computer');}();
+
+    autoGenNode.onclick = () => function() {game.selectAutoGen();}();
 }
 
 DOM.setModels = function(game) {
@@ -36,10 +38,7 @@ DOM.updateModels = function(game) {
                 let node = queryElement(['modelsquare'],
                     {x: segment.x, y: segment.y, player: player.name, index: model.index});
                 setClasslist(node, {ship: true});
-                console.log(`player: ${player.name}, x: ${segment.x}, y: ${segment.y}, mIndex: ${model.index}`)
             }
-
-            // TODO: create models
         }
     }
 }
@@ -73,6 +72,41 @@ DOM.updateGameboard = function(game) {
             }
         }
     }
+}
+
+// ========================== BUTTONS =================================
+// ====================================================================
+class Button {
+    constructor(id, start, p1pick, p1confirm, p2pick, p2confirm, game, results) {
+        this.id = id;
+        this.start = start;
+        this.p1pick = p1pick;
+        this.p1confirm = p1confirm;
+        this.p2pick = p2pick;
+        this.p2confirm = p2confirm;
+        this.game = this.game;
+        this.results = this.results
+    }
+}
+const buttons = [
+    new Button('twoPlayer', 1, 0, 0, 0, 0, 0, 0),
+    new Button('computer' , 1, 0, 0, 0, 0, 0, 0),
+    new Button('autoGen'  , 0, 1, 0, 1, 0, 0, 0),
+    new Button('confirm'  , 0, 0, 1, 0, 1, 0, 0),
+    new Button('reset'    , 0, 0, 1, 1, 1, 1, 1),
+    new Button('peek'     , 0, 0, 0, 0, 0, 1, 0)
+];
+
+function setButtonActive(id, isActive) {
+    let node = document.getElementById(id);
+    if (isActive) node.classList.add('active');
+    else node.classList.remove('active');
+}
+
+DOM.updateButtons = function(state) {
+    console.log(buttons);
+    for (let button of buttons)
+        setButtonActive(button.id, button[state]);
 }
 
 // ============================ MISC ==================================
