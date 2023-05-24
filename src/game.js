@@ -36,6 +36,11 @@ export default class Game {
             case 'p1pick':
                 this.turnPlayer = this.players[0];
                 break;
+            case 'confirm':
+                break;
+            case 'p2pick':
+                this.turnPlayer = this.players[1];
+                break;
         }
         this.update();
     }
@@ -43,29 +48,26 @@ export default class Game {
     // ============================ INPUT =============================
     // ================================================================
     selectGameType(type) {
-        if (this.state !== 'start') return;
+        if (!this.isState('start')) return;
 
         this.players[1].type = type;
-
         this.updateState('p1pick');
     }
 
     selectAutoGen() {
-        if (this.state !== 'p1pick' && this.state !== 'p2pick') return;
+        if (!this.isState('p1pick', 'p2pick')) return;
 
         this.autoGen();
 
         let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
         this.updateState(nextState);
-        this.update();
     }
 
-    selectConfirmShips() {
-        if (this.state !== 'p1confirm' && this.state !== 'p2confirm') return;
-
-        // TODO: confirm
-
-        // TODO update state, update
+    selectConfirm() {
+        if (!this.isState('p1confirm', 'p2confirm')) return;
+     
+        let nextState = (this.state === 'p1confirm') ? 'p2pick' : 'game';
+        this.updateState(nextState);
     }
 
     clickModel(playerName, index) {
@@ -117,6 +119,7 @@ export default class Game {
     }
 
     autoGen() {
+        console.log(`auto generating ships for ${this.turnPlayer.name}`)
         this.turnPlayer.board.genDefaultShips();
         // TODO: update default ships, randomize
         return;

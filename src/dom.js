@@ -1,20 +1,6 @@
 const DOM = {};
 export default DOM;
 
-DOM.setButtons = function(game) { // TODO refactor
-    let twoPlayerNode = document.getElementById('twoPlayer');
-    let computerNode = document.getElementById('computer');
-    let autoGenNode = document.getElementById('autoGen');
-    let confirmNode = document.getElementById('confirm');
-    let resetNode = document.getElementById('reset');
-    let peek = document.getElementById('peek');
-
-    twoPlayerNode.onclick = () => function() {game.selectGameType('player');}();
-    computerNode.onclick = () => function() {game.selectGameType('computer');}();
-
-    autoGenNode.onclick = () => function() {game.selectAutoGen();}();
-}
-
 DOM.setModels = function(game) {
     for (let boardNode of queryArray(['modelboard'])) {
         for (let y = 0; y < 5; y++)
@@ -45,16 +31,8 @@ DOM.updateModels = function(game) {
 
 DOM.updateActivePlayer = function(game) {
     for (let boardNode of queryArray(['modelboard-container'])) {
-        
         let turnPlayerName = (game.turnPlayer) ? game.turnPlayer.name : 'n/a';
-
         let isActive = (game.turnPlayer && turnPlayerName === boardNode.dataset.player) ? true : false;
-        
-        console.log(`turnPlayer: ${turnPlayerName}, active: ${isActive}`);
-
-        // if (game.turnPlayer && turnPlayerName === boardNode.dataset.player)
-        //     isActive = true;
-        
         setClasslist(boardNode, {active: isActive});
     }
 }
@@ -92,6 +70,26 @@ DOM.updateGameboard = function(game) {
 
 // ========================== BUTTONS =================================
 // ====================================================================
+DOM.setButtons = function(game) {
+    let twoPlayerNode = document.getElementById('twoPlayer');
+    let computerNode = document.getElementById('computer');
+    let autoGenNode = document.getElementById('autoGen');
+    let confirmNode = document.getElementById('confirm');
+    let resetNode = document.getElementById('reset');
+    let peek = document.getElementById('peek');
+
+    twoPlayerNode.onclick = () => function() {game.selectGameType('player');}();
+    computerNode.onclick = () => function() {game.selectGameType('computer');}();
+    confirmNode.onclick = () => function() {game.selectConfirm();}();
+
+    autoGenNode.onclick = () => function() {game.selectAutoGen();}();
+}
+
+DOM.updateButtons = function(state) {
+    for (let button of buttons)
+        setButtonActive(button.id, button[state]);
+}
+
 class Button {
     constructor(id, start, p1pick, p1confirm, p2pick, p2confirm, game, results) {
         this.id = id;
@@ -109,19 +107,13 @@ const buttons = [
     new Button('computer' , 1, 0, 0, 0, 0, 0, 0),
     new Button('autoGen'  , 0, 1, 0, 1, 0, 0, 0),
     new Button('confirm'  , 0, 0, 1, 0, 1, 0, 0),
-    new Button('reset'    , 0, 0, 1, 1, 1, 1, 1),
+    new Button('reset'    , 0, 1, 1, 1, 1, 1, 1),
     new Button('peek'     , 0, 0, 0, 0, 0, 1, 0)
 ];
 function setButtonActive(id, isActive) {
     let node = document.getElementById(id);
     if (isActive) node.classList.add('active');
     else node.classList.remove('active');
-}
-
-DOM.updateButtons = function(state) {
-    console.log(buttons);
-    for (let button of buttons)
-        setButtonActive(button.id, button[state]);
 }
 
 // ============================ MISC ==================================
