@@ -11,6 +11,7 @@ export default class Game {
         console.log(this.players); // DEBUG
         this.turnPlayer = null;
         this.selectedModel = null;
+        // TODO: consolidate pick/confirm
         // p1pick, p1confirm, p2pick, p2confirm, game, result, aipick?
         this.state = 'start'; 
         
@@ -92,6 +93,22 @@ export default class Game {
             this.update();
     }   
     
+    clickRotateModel(playerName, index) {
+        if (!this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm')) return;
+            this.rotateModel();
+    }
+    clickDeleteModel(playerName, index) {
+        console.log(`clicked delete model,  player: ${playerName}, index: ${index}`);
+        if (!this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm')) return;
+        let player = this.getPlayer(playerName);
+        
+        if (player.models[index].placed && this.turnPlayer.name === playerName) {
+            DOM.removeShip(playerName, player.board.ships[index]);
+            this.deleteModel(player, index);
+            this.update();
+        }
+    }
+
     // =========================== ACTIONS ============================
     // ================================================================
     selectModel(playerName, index) {
@@ -103,14 +120,22 @@ export default class Game {
         model.selected = true;
         this.selectedModel = model;
     }
+    deleteModel(player, index) {
+        player.board.ships[index] = null;
+        player.models[index].placed = false;
+        if (this.isState('p1confirm', 'p2confirm'))
+            this.updateState(`${player.name}pick`);
+    }
+
 
     placeModel(x, y, player) {
-        let result = player.board.addShip(x, y, this.selectedModel.ship.length);
+        let model = this.selectedModel;
+        let result = player.board.addShip(x, y, model.ship.length, 'vertical', model.index);
         console.log('placing model...', result); // DEBUG
 
         if (result.status === 'success') {
             this.selectedModel.placed = true;
-            if (player.board.ships.length >= 5) {
+            if (player.board.shipsFull) {
                 let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
                 this.updateState(nextState);
             }

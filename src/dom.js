@@ -15,11 +15,14 @@ DOM.setModels = function(game) {
         let containerNode = boardNode.parentNode;
         containerNode.dataset.player = boardNode.dataset.player;
 
-        let rotateNode = createDiv(containerNode, ['icon', 'rotate']);
-        rotateNode.textContent = 'o';
-        let deleteNode = createDiv(containerNode, ['icon', 'delete']);
-        deleteNode.textContent = 'x';
-
+        let rotateNode = createDiv(containerNode, ['icon', 'rotate'], null, 'o');
+        let deleteNode = createDiv(containerNode, ['icon', 'delete'], null, 'x');
+        rotateNode.onclick = () => function() {
+            game.clickRotateModel(boardNode.dataset.player, boardNode.dataset.index);
+        }();
+        deleteNode.onclick = () => function() {
+            game.clickDeleteModel(boardNode.dataset.player, boardNode.dataset.index);
+        }();
 
     }
 }
@@ -68,13 +71,24 @@ DOM.setGameboard = function(game) {
 
 DOM.updateGameboard = function(game) {
     for (let player of game.players) {
+        if (!player.board.ships)
+            continue;
         for (let ship of player.board.ships) {
+            if (!ship)
+                continue;
             for (let segment of ship.segments) {
                 let node = queryElement(['square'],
                     {x: segment.x, y: segment.y, player: player.name});
                 setClasslist(node, {...segment.bools, ship: true});
             }
         }
+    }
+}
+DOM.removeShip = function(playerName, ship) {
+    for (let segment of ship.segments) {
+        let node = queryElement(['square'],
+            {x: segment.x, y: segment.y, player: playerName});
+        node.classList.remove('ship');
     }
 }
 
@@ -128,7 +142,7 @@ function setButtonActive(id, isActive) {
 
 // ============================ MISC ==================================
 // ====================================================================
-function createDiv(parent, classArray, dataArray) {
+function createDiv(parent, classArray, dataArray, text) {
     let node = document.createElement('div');
     parent.append(node);
 
@@ -138,6 +152,9 @@ function createDiv(parent, classArray, dataArray) {
 
     for (let key in dataArray)
         node.dataset[key] = dataArray[key];
+
+    if (text)
+        node.textContent = text;
 
     return node;
 }

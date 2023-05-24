@@ -3,13 +3,13 @@ import Ship from './ship.js';
 export default class Gameboard {
     constructor() {
         this.hits = [];
-        this.ships = [];
+        this.ships = Array.apply(null, Array(5));
         this.models = [];
         this.genDefaultModels();
         // this.genDefaultShips();
     }
 
-    addShip(x, y, length = 1, shape = 'vertical') {
+    addShip(x, y, length = 1, shape = 'vertical', index) {
         if (isOutOfBounds(x, y))
             return {status: 'failure', message: 'ship out of bounds'};
         
@@ -20,13 +20,24 @@ export default class Gameboard {
                 return {status: 'failure', message: 'ship extends out of bounds'};
 
         for (let segment1 of ship.segments)
-            for (let ship2 of this.ships)
+            for (let ship2 of this.ships) {
+                if (!ship2)
+                    continue;
                 for (let segment2 of ship2.segments)
                     if (segment1.x == segment2.x && segment1.y == segment2.y)
                         return {status: 'failure', message: 'ship intersects other ship'};
+            }
 
-        this.ships.push(ship);
+        // this.ships.push(ship);
+        this.ships[index] = ship;
         return {status: 'success'};
+    }
+
+    get shipsFull() {
+        for (let ship of this.ships)
+            if (!ship)
+                return false;
+        return true;
     }
 
     addModel(x, y, length = 1, shape = 'vertical') {
@@ -68,11 +79,11 @@ export default class Gameboard {
 
     genDefaultShips() {
         this.ships = [];
-        this.addShip(1, 1, 2);
-        this.addShip(3, 3, 2);
-        this.addShip(5, 5, 2);
-        this.addShip(7, 7, 2);
-        this.addShip(9, 4, 2);
+        this.addShip(1, 1, 2, 'vertical', 0);
+        this.addShip(3, 3, 2, 'vertical', 1);
+        this.addShip(5, 5, 2, 'vertical', 2);
+        this.addShip(7, 7, 2, 'vertical', 3);
+        this.addShip(9, 4, 2, 'vertical', 4);
     }
 
     genDefaultModels() {
