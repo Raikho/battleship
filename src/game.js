@@ -74,26 +74,25 @@ export default class Game {
         // Check state
         this.selectModel(playerName, index)
 
-        // TODO: pregress state if full on ships
-
         this.update();
     }
     clickSquare(x, y, playerName) {
         console.log(`square clicked at ${playerName}, x:${x}, y:${y}`);
+        let result = {status: 'failure'};
 
-        if (this.state === 'p1pick' || this.state === 'p2pick') {
-            if (playerName === this.selectedModel.name) {
-                this.placeModel(x, y, this.getPlayer(playerName));
-                
-                this.update();
-            }
-        }
+        if (this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm'))
+            if (!this.selectedModel.placed) // TODO: allow replace ships
+                if (playerName === this.selectedModel.name && playerName === this.turnPlayer.name) {
+                    result = this.placeModel(x, y, this.getPlayer(playerName));
+                }
+
+        if (result.status === 'success')
+            this.update();
     }   
     
     // =========================== ACTIONS ============================
     // ================================================================
     selectModel(playerName, index) {
-        // deselect models, select only this model
         for (let player of this.players)
             for (let model of player.models)
                 model.selected = false;
@@ -104,9 +103,17 @@ export default class Game {
     }
 
     placeModel(x, y, player) {
-        console.log('selected model: ', this.selectedModel);
         let result = player.board.addShip(x, y, this.selectedModel.ship.length);
-        console.log(result);
+        console.log('placing model...', result); // DEBUG
+
+        if (result.status === 'success') {
+            this.selectedModel.placed = true;
+            if (player.board.ships.length >= 5) {
+                let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
+                this.updateState(nextState);
+            }
+        }
+        return result;
     }
 
     autoGen() {
@@ -119,6 +126,7 @@ export default class Game {
     update() {
         DOM.updateModels(this);
         DOM.updateGameboard(this);
+        console.log('test');
     }
 
     // ============================= MISC =============================
@@ -127,6 +135,13 @@ export default class Game {
         for (let player of this.players)
             if (player.name === playerName)
                 return player;
+    }
+
+    isState(stateArgs) {
+        for (let state of arguments)
+            if (this.state === state)
+                return true;
+        return false;
     }
 }
 
