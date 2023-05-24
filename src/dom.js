@@ -11,6 +11,16 @@ DOM.setModels = function(game) {
         boardNode.onclick = () => function() {
             game.clickModel(boardNode.dataset.player, boardNode.dataset.index);
         }();
+
+        let containerNode = boardNode.parentNode;
+        containerNode.dataset.player = boardNode.dataset.player;
+
+        let rotateNode = createDiv(containerNode, ['icon', 'rotate']);
+        rotateNode.textContent = 'o';
+        let deleteNode = createDiv(containerNode, ['icon', 'delete']);
+        deleteNode.textContent = 'x';
+
+
     }
 }
 
@@ -98,8 +108,8 @@ class Button {
         this.p1confirm = p1confirm;
         this.p2pick = p2pick;
         this.p2confirm = p2confirm;
-        this.game = this.game;
-        this.results = this.results
+        this.game = game;
+        this.results = results
     }
 }
 const buttons = [
@@ -135,6 +145,14 @@ function createTextDiv(parent, text) {
     let node = document.createElement('div');
     parent.append(node);
     node.textContent = text;
+    return node;
+}
+function createButton(parent, classArray) {
+    let node = document.createElement('button');
+    parent.append(node);
+    if (classArray)
+        for (let cls of classArray)
+            node.classList.add(cls);
     return node;
 }
 
