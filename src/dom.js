@@ -43,6 +43,22 @@ DOM.updateModels = function(game) {
     }
 }
 
+DOM.updateActivePlayer = function(game) {
+    for (let boardNode of queryArray(['modelboard-container'])) {
+        
+        let turnPlayerName = (game.turnPlayer) ? game.turnPlayer.name : 'n/a';
+
+        let isActive = (game.turnPlayer && turnPlayerName === boardNode.dataset.player) ? true : false;
+        
+        console.log(`turnPlayer: ${turnPlayerName}, active: ${isActive}`);
+
+        // if (game.turnPlayer && turnPlayerName === boardNode.dataset.player)
+        //     isActive = true;
+        
+        setClasslist(boardNode, {active: isActive});
+    }
+}
+
 DOM.setGameboard = function(game) {
     for (let boardNode of queryArray(['gameboard'])) {
         for (let y = 0; y < 11; y++) {

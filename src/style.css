@@ -9,6 +9,8 @@
     --darkAmber: #451a03;
     --darkViolet: #2e1065;
     --darkRed: #450a0a;
+
+    --active-board-bg: darkseagreen;
 }
 body {
     height: 100vh;
@@ -106,6 +108,9 @@ button.rotate:active {filter: brightness(0.9);}
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+.modelboard-container.active {
+    background-color: var(--active-board-bg);
 }
 .model-container {
     padding: 5px;

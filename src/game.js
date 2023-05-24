@@ -37,7 +37,7 @@ export default class Game {
                 this.turnPlayer = this.players[0];
                 break;
         }
-        DOM.updateButtons(state);
+        this.update();
     }
 
     // ============================ INPUT =============================
@@ -81,7 +81,7 @@ export default class Game {
         let result = {status: 'failure'};
 
         if (this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm'))
-            if (!this.selectedModel.placed) // TODO: allow replace ships
+            if (this.selectedModel && !this.selectedModel.placed) // TODO: allow replace ships
                 if (playerName === this.selectedModel.name && playerName === this.turnPlayer.name) {
                     result = this.placeModel(x, y, this.getPlayer(playerName));
                 }
@@ -124,9 +124,10 @@ export default class Game {
     // ============================ OUTPUT ============================
     // ================================================================
     update() {
+        DOM.updateButtons(this.state);
         DOM.updateModels(this);
         DOM.updateGameboard(this);
-        console.log('test');
+        DOM.updateActivePlayer(this);
     }
 
     // ============================= MISC =============================
