@@ -28,6 +28,7 @@ export default class Game {
         switch(state) {
             case 'start':
                 // clear board
+                // reset models
                 // reset ship select
                 // hide boards?
                 // update ??
@@ -59,17 +60,35 @@ export default class Game {
         this.update();
     }
 
+    selectConfirmShips() {
+        if (this.state !== 'p1confirm' && this.state !== 'p2confirm') return;
+
+        // TODO: confirm
+
+        // TODO update state, update
+    }
+
     clickModel(playerName, index) {
         console.log(`model clicked at ${playerName}, ${index}`);
 
         // Check state
         this.selectModel(playerName, index)
 
+        // TODO: pregress state if full on ships
+
         this.update();
     }
     clickSquare(x, y, playerName) {
         console.log(`square clicked at ${playerName}, x:${x}, y:${y}`);
-    }
+
+        if (this.state === 'p1pick' || this.state === 'p2pick') {
+            if (playerName === this.selectedModel.name) {
+                this.placeModel(x, y, this.getPlayer(playerName));
+                
+                this.update();
+            }
+        }
+    }   
     
     // =========================== ACTIONS ============================
     // ================================================================
@@ -84,8 +103,15 @@ export default class Game {
         this.selectedModel = model;
     }
 
+    placeModel(x, y, player) {
+        console.log('selected model: ', this.selectedModel);
+        let result = player.board.addShip(x, y, this.selectedModel.ship.length);
+        console.log(result);
+    }
+
     autoGen() {
         this.turnPlayer.board.genDefaultShips();
+        // TODO: update default ships, randomize
         return;
     }
     // ============================ OUTPUT ============================

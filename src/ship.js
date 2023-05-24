@@ -1,6 +1,7 @@
 export default class Ship {
     constructor(x, y, length, shape = 'vertical') {
         this.segments = [];
+        this.length = length;
         for (let i = 0; i < length; i++) {
             let dx = (shape === 'vertical') ? 0 : i;
             let dy = (shape === 'vertical') ? i : 0;

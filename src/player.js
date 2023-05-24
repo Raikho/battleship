@@ -13,11 +13,11 @@ export default class Player {
     }
 
     generateModels() {
-        this.models[0] = new Model(2, 0);
-        this.models[1] = new Model(3, 1);
-        this.models[2] = new Model(3, 2);
-        this.models[3] = new Model(4, 3);
-        this.models[4] = new Model(5, 4);
+        this.models[0] = new Model(this.name, 2, 0);
+        this.models[1] = new Model(this.name, 3, 1);
+        this.models[2] = new Model(this.name, 3, 2);
+        this.models[3] = new Model(this.name, 4, 3);
+        this.models[4] = new Model(this.name, 5, 4);
         // this.models[0].selected = true;
         // this.models[1].placed = true;
         // this.models[2].sunk = true;
@@ -25,7 +25,8 @@ export default class Player {
 }
 
 class Model {
-    constructor(length, index) {
+    constructor(playerName, length, index) {
+        this.name = playerName;
         this.ship = new Ship(0, 0, length, 'vertical');
         this.index = index;
         this.selected = false;

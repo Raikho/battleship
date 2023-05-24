@@ -96,7 +96,6 @@ const buttons = [
     new Button('reset'    , 0, 0, 1, 1, 1, 1, 1),
     new Button('peek'     , 0, 0, 0, 0, 0, 1, 0)
 ];
-
 function setButtonActive(id, isActive) {
     let node = document.getElementById(id);
     if (isActive) node.classList.add('active');
