@@ -1,7 +1,10 @@
 export default class Ship {
     constructor(x, y, length, shape = 'vertical') {
-        this.segments = [];
+        this.x = x;
+        this.y = y;
+        this.shape = shape;
         this.length = length;
+        this.segments = [];
         for (let i = 0; i < length; i++) {
             let dx = (shape === 'vertical') ? 0 : i;
             let dy = (shape === 'vertical') ? i : 0;
@@ -23,6 +26,9 @@ export default class Ship {
         });
     }
     isSunk() {return (this.hits >= this.segments.length)}
+    static copyFrom(ship, x, y) {
+        return new Ship(x, y, ship.length, ship.shape);
+    }
 }
 
 class Segment {

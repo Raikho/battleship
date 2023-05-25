@@ -13,21 +13,18 @@ export default class Player {
     }
 
     generateModels() {
-        this.models[0] = new Model(this.name, 2, 0);
-        this.models[1] = new Model(this.name, 3, 1);
-        this.models[2] = new Model(this.name, 3, 2);
-        this.models[3] = new Model(this.name, 4, 3);
-        this.models[4] = new Model(this.name, 5, 4);
-        // this.models[0].selected = true;
-        // this.models[1].placed = true;
-        // this.models[2].sunk = true;
+        this.models[0] = new Model(this.name, 2, 0, 'vertical');
+        this.models[1] = new Model(this.name, 3, 1, 's'); // todo
+        this.models[2] = new Model(this.name, 3, 2, 'vertical');
+        this.models[3] = new Model(this.name, 4, 3, 'vertical');
+        this.models[4] = new Model(this.name, 5, 4, 'vertical');
     }
 }
 
 class Model {
-    constructor(playerName, length, index) {
+    constructor(playerName, length, index, shape) {
         this.name = playerName;
-        this.ship = new Ship(0, 0, length, 'vertical');
+        this.ship = new Ship(0, 0, length, shape);
         this.index = index;
         this.selected = false;
         this.placed = false;
@@ -35,6 +32,10 @@ class Model {
     }
     get bools() {
         return {selected: this.selected, placed: this.placed, sunk: this.sunk};
+    }
+    rotate() {
+        let newShape = (this.ship.shape === 'vertical') ? 'horiztonal' : 'vertical';
+        this.ship = new Ship(this.ship.x, this.ship.y, this.ship.length, newShape);
     }
     // TODO  auto recenter
 }

@@ -95,7 +95,17 @@ export default class Game {
     
     clickRotateModel(playerName, index) {
         if (!this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm')) return;
-            this.rotateModel();
+        let player = this.getPlayer(playerName);
+
+        if(this.turnPlayer.name === playerName) {
+            let model = player.models[index]; // debug
+            console.log(`rotating model at ${playerName}, ${index}`, model.ship.segments); // debug
+            DOM.removeModel(playerName, player.models[index]);
+            this.rotateModel(player, index);
+            this.update();
+
+            this.clickDeleteModel(playerName, index);
+        }
     }
     clickDeleteModel(playerName, index) {
         console.log(`clicked delete model,  player: ${playerName}, index: ${index}`);
@@ -126,11 +136,14 @@ export default class Game {
         if (this.isState('p1confirm', 'p2confirm'))
             this.updateState(`${player.name}pick`);
     }
+    rotateModel(player, index) {
+        player.models[index].rotate();
+    }
 
 
     placeModel(x, y, player) {
         let model = this.selectedModel;
-        let result = player.board.addShip(x, y, model.ship.length, 'vertical', model.index);
+        let result = player.board.addShip(x, y, model.ship.length, model.ship.shape, model.index);
         console.log('placing model...', result); // DEBUG
 
         if (result.status === 'success') {

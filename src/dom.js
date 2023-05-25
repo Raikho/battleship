@@ -84,6 +84,13 @@ DOM.updateGameboard = function(game) {
         }
     }
 }
+DOM.removeModel = function(playerName, model) {
+    for (let segment of model.ship.segments) {
+        let node = queryElement(['modelsquare'],
+            {x: segment.x, y: segment.y, player: playerName, index: model.index});
+        node.classList.remove('ship');
+    }
+}
 DOM.removeShip = function(playerName, ship) {
     for (let segment of ship.segments) {
         let node = queryElement(['square'],
