@@ -36,7 +36,7 @@ DOM.updateModels = function(game) {
             for (let segment of model.ship.segments) {
                 let node = queryElement(['modelsquare'],
                     {x: segment.x, y: segment.y, player: player.name, index: model.index});
-                setClasslist(node, {ship: true});
+                setClasslist(node, {...segment.bools, ship: true});
             }
         }
     }

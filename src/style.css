@@ -208,12 +208,16 @@ button.rotate:active {filter: brightness(0.9);}
 .hidden>.sunk.ship {border-radius: 20px;}
 
 .square.ship.cornerTL,
+.modelsquare.cornerTL,
 .hidden>.sunk.ship.cornerTL {border-top-left-radius: 0px;}
 .square.ship.cornerTR,
+.modelsquare.cornerTR,
 .hidden>.sunk.ship.cornerTR {border-top-right-radius: 0px;}
 .square.ship.cornerBL,
+.modelsquare.cornerBL,
 .hidden>.sunk.ship.cornerBL {border-bottom-left-radius: 0px;}
 .square.ship.cornerBR,
+.modelsquare.cornerBR,
 .hidden>.sunk.ship.cornerBR {border-bottom-right-radius: 0px;}
 /* ============================== Logs ============================= */
 /* ================================================================= */
