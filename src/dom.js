@@ -143,7 +143,7 @@ class Button {
 const buttons = [
     new Button('twoPlayer', 1, 0, 0, 0, 0, 0, 0),
     new Button('computer' , 1, 0, 0, 0, 0, 0, 0),
-    new Button('autoGen'  , 0, 1, 0, 1, 0, 0, 0),
+    new Button('autoGen'  , 0, 1, 1, 1, 1, 0, 0),
     new Button('confirm'  , 0, 0, 1, 0, 1, 0, 0),
     new Button('reset'    , 0, 1, 1, 1, 1, 1, 1),
     new Button('peek'     , 0, 0, 0, 0, 0, 1, 0)

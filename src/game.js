@@ -57,7 +57,7 @@ export default class Game {
     }
 
     selectAutoGen() {
-        if (!this.isState('p1pick', 'p2pick')) return;
+        if (!this.isState('p1pick', 'p1confirm', 'p2pick', 'p2confirm')) return;
 
         this.autoGen();
 
@@ -104,7 +104,6 @@ export default class Game {
 
         if(this.turnPlayer.name === playerName) {
             let model = player.models[index]; // debug
-            console.log(`rotating model at ${playerName}, ${index}`, model.ship.segments); // debug
             DOM.removeModel(playerName, player.models[index]);
             this.rotateModel(player, index);
             this.update();
@@ -120,6 +119,9 @@ export default class Game {
         if (player.models[index].placed && this.turnPlayer.name === playerName) {
             DOM.removeShip(playerName, player.board.ships[index]);
             this.deleteModel(player, index);
+            
+            if (this.isState('p1confirm', 'p2confirm'))
+                this.updateState(`${player.name}pick`);
             this.update();
         }
     }
@@ -138,31 +140,25 @@ export default class Game {
     deleteModel(player, index) {
         player.board.ships[index] = null;
         player.models[index].placed = false;
-        if (this.isState('p1confirm', 'p2confirm'))
-            this.updateState(`${player.name}pick`);
     }
     rotateModel(player, index) {
         player.models[index].rotate();
     }
     hideModelOrientation(player) {
-        console.log('hiding model oreintation');
-        for (let model of player.models) {
-            console.log(model.ship);
-            if (model.ship.shape === 'horizontal') {
+        for (let model of player.models)
+            if (model.ship.shape === 'horizontal')
                 model.rotate();
-            }
-        }
         this.update();
     }
 
 
-    placeModel(x, y, player) {
-        let model = this.selectedModel;
+    placeModel(x, y, player, manualModel) {
+        let model = (manualModel || this.selectedModel);
         let result = player.board.addShip(x, y, model.ship.length, model.ship.shape, model.index);
         console.log('placing model...', result); // DEBUG
 
         if (result.status === 'success') {
-            this.selectedModel.placed = true;
+            model.placed = true;
             if (player.board.shipsFull) {
                 let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
                 this.updateState(nextState);
@@ -173,9 +169,30 @@ export default class Game {
 
     autoGen() {
         console.log(`auto generating ships for ${this.turnPlayer.name}`)
-        this.turnPlayer.board.genDefaultShips();
-        // TODO: update default ships, randomize
-        return;
+        let player = this.turnPlayer;
+
+        this.clear(player);
+        player.generateModels(true);
+        for (let model of player.models) {
+            while (true) {
+                let x = Math.floor(Math.random() * 10) + 1;
+                let y = Math.floor(Math.random() * 10) + 1;
+                let result = this.placeModel(x, y, player, model);
+                if (result.status === 'success') break;
+            }
+        }
+
+        this.update();
+    }
+
+    clear(player) {
+        for (let model of player.models) {
+            DOM.removeModel(player.name, model);
+            if (model.placed) {
+                DOM.removeShip(player.name, player.board.ships[model.index]);
+                this.deleteModel(player, model.index);
+            }
+        }
     }
     // ============================ OUTPUT ============================
     // ================================================================

@@ -12,12 +12,14 @@ export default class Player {
         this.generateModels();
     }
 
-    generateModels() {
-        this.models[0] = new Model(this.name, 2, 0, 'vertical');
-        this.models[1] = new Model(this.name, 3, 1, 'horizontal'); // todo
-        this.models[2] = new Model(this.name, 3, 2, 'vertical');
-        this.models[3] = new Model(this.name, 4, 3, 'vertical');
-        this.models[4] = new Model(this.name, 5, 4, 'vertical');
+    generateModels(randomShapes = false) {
+        let lengths = [2, 3, 3, 4, 5]
+        for (let index = 0; index < 5; index++) {
+            let shape = 'vertical';
+            if (randomShapes)
+                shape = (Math.random() * 2 >= 1) ? 'vertical' : 'horizontal';
+            this.models[index] = new Model(this.name, lengths[index], index, shape);
+        }
     }
 }
 
