@@ -68,6 +68,10 @@ export default class Game {
     selectConfirm() {
         if (!this.isState('p1confirm', 'p2confirm')) return;
      
+        for (let model of this.turnPlayer.models)
+            DOM.removeModel(this.turnPlayer.name, model);
+        this.hideModelOrientation(this.turnPlayer);
+        
         let nextState = (this.state === 'p1confirm') ? 'p2pick' : 'game';
         this.updateState(nextState);
     }
@@ -139,6 +143,16 @@ export default class Game {
     }
     rotateModel(player, index) {
         player.models[index].rotate();
+    }
+    hideModelOrientation(player) {
+        console.log('hiding model oreintation');
+        for (let model of player.models) {
+            console.log(model.ship);
+            if (model.ship.shape === 'horizontal') {
+                model.rotate();
+            }
+        }
+        this.update();
     }
 
 

@@ -14,7 +14,7 @@ export default class Player {
 
     generateModels() {
         this.models[0] = new Model(this.name, 2, 0, 'vertical');
-        this.models[1] = new Model(this.name, 3, 1, 's'); // todo
+        this.models[1] = new Model(this.name, 3, 1, 'horizontal'); // todo
         this.models[2] = new Model(this.name, 3, 2, 'vertical');
         this.models[3] = new Model(this.name, 4, 3, 'vertical');
         this.models[4] = new Model(this.name, 5, 4, 'vertical');
@@ -37,7 +37,7 @@ class Model {
         return {selected: this.selected, placed: this.placed, sunk: this.sunk};
     }
     rotate() {
-        let newShape = (this.ship.shape === 'vertical') ? 'horiztonal' : 'vertical';
+        let newShape = (this.ship.shape === 'vertical') ? 'horizontal' : 'vertical';
         this.ship = new Ship(this.ship.x, this.ship.y, this.ship.length, newShape);
         this.recenter();
     }
