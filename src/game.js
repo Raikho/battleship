@@ -38,10 +38,16 @@ export default class Game {
             case 'p1pick':
                 this.turnPlayer = this.players[0];
                 break;
-            case 'confirm':
+            case 'p1confirm':
                 break;
             case 'p2pick':
+                DOM.hidePlayerBoard(this.players[0]); // todo implement
                 this.turnPlayer = this.players[1];
+                break;
+            case 'p2confirm':
+                break;
+            case 'game':
+                DOM.hidePlayerBoard(this.players[1]); // todo implement
                 break;
         }
         this.update();

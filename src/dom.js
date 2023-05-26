@@ -105,6 +105,14 @@ DOM.removeShip = function(playerName, ship) {
         node.classList.remove('ship');
     }
 }
+// ========================== HIDING ==================================
+// ====================================================================
+DOM.hidePlayerBoard = function(player) {
+    let boardNode = queryElement(['gameboard'], {player: player.name})
+    boardNode.classList.add('hidden');
+}
+DOM.revealPlayerBoard = function(player) {
+}
 
 // ========================== BUTTONS =================================
 // ====================================================================
