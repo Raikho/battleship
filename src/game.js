@@ -88,14 +88,21 @@ export default class Game {
         console.log(`square clicked at ${playerName}, x:${x}, y:${y}`);
         let result = {status: 'failure'};
 
-        if (this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm'))
-            if (this.selectedModel && !this.selectedModel.placed) // TODO: allow replace ships
+        if (this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm')) {
+            if (this.selectedModel && !this.selectedModel.placed) {
                 if (playerName === this.selectedModel.name && playerName === this.turnPlayer.name) {
                     result = this.placeModel(x, y, this.getPlayer(playerName));
                 }
+            }
+        }
 
-        if (result.status === 'success')
+        if (result.status === 'success') {
             this.update();
+            if (this.turnPlayer.board.shipsFull) {
+                let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
+                this.updateState(nextState);
+            }
+        }
     }   
     
     clickRotateModel(playerName, index) {
@@ -159,10 +166,6 @@ export default class Game {
 
         if (result.status === 'success') {
             model.placed = true;
-            if (player.board.shipsFull) {
-                let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
-                this.updateState(nextState);
-            }
         }
         return result;
     }
