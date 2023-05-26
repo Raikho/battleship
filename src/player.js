@@ -29,6 +29,9 @@ class Model {
         this.selected = false;
         this.placed = false;
         this.sunk = false;
+        this.offsetX = 0;
+        this.offsetY = 0;
+        this.recenter();
     }
     get bools() {
         return {selected: this.selected, placed: this.placed, sunk: this.sunk};
@@ -36,6 +39,12 @@ class Model {
     rotate() {
         let newShape = (this.ship.shape === 'vertical') ? 'horiztonal' : 'vertical';
         this.ship = new Ship(this.ship.x, this.ship.y, this.ship.length, newShape);
+        this.recenter();
     }
-    // TODO  auto recenter
+    recenter() {
+        let leftoverWidth = 5 - this.ship.width;
+        let leftoverHeight = 5 - this.ship.height;
+        this.offsetX = Math.floor(leftoverWidth / 2);
+        this.offsetY = Math.floor(leftoverHeight / 2);
+    }
 }

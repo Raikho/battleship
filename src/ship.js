@@ -26,8 +26,20 @@ export default class Ship {
         });
     }
     isSunk() {return (this.hits >= this.segments.length)}
-    static copyFrom(ship, x, y) {
-        return new Ship(x, y, ship.length, ship.shape);
+    // static copyFrom(ship, x, y) {
+    //     return new Ship(x, y, ship.length, ship.shape);
+    // }
+    get width() {
+        let arr = this.segments.map(segment => segment.x);
+        let min = arr.reduce((prev, cur) => {return (cur < prev) ? cur : prev;}, 0);
+        let max = arr.reduce((prev, cur) => {return (cur > prev) ? cur : prev;}, 0);
+        return max - min + 1;
+    }
+    get height() {
+        let arr = this.segments.map(segment => segment.y);
+        let min = arr.reduce((prev, cur) => {return (cur < prev) ? cur : prev;}, 0);
+        let max = arr.reduce((prev, cur) => {return (cur > prev) ? cur : prev;}, 0);
+        return max - min + 1;
     }
 }
 

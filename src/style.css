@@ -202,7 +202,7 @@ button.rotate:active {filter: brightness(0.9);}
 }
 [data-active="true"] {
     border: 2px solid goldenrod;
-}
+}g
 /* =========================== Ship Corners ======================== */
 .hidden>.square.ship {border-radius: 0px;}
 .hidden>.sunk.ship {border-radius: 20px;}

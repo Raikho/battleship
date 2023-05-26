@@ -34,8 +34,13 @@ DOM.updateModels = function(game) {
             setClasslist(boardNode, model.bools);
 
             for (let segment of model.ship.segments) {
-                let node = queryElement(['modelsquare'],
-                    {x: segment.x, y: segment.y, player: player.name, index: model.index});
+                let node = queryElement(
+                    ['modelsquare'],
+                    {
+                        x: segment.x + model.offsetX,
+                        y: segment.y + model.offsetY, 
+                        player: player.name, index: model.index}
+                    );
                 setClasslist(node, {...segment.bools, ship: true});
             }
         }
@@ -87,7 +92,7 @@ DOM.updateGameboard = function(game) {
 DOM.removeModel = function(playerName, model) {
     for (let segment of model.ship.segments) {
         let node = queryElement(['modelsquare'],
-            {x: segment.x, y: segment.y, player: playerName, index: model.index});
+            {x: segment.x + model.offsetX, y: segment.y + model.offsetY, player: playerName, index: model.index});
         node.classList.remove('ship');
     }
 }

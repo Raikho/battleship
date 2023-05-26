@@ -19,6 +19,7 @@ export default class Game {
         DOM.setModels(this);
         DOM.setGameboard(this);
         this.update();
+
     }
 
     updateState(state) {
