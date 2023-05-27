@@ -17,6 +17,7 @@
     --delete: #1e1b4b;
     --delete-lighter: #b91c1c; /* Red 700 */
 
+    --border-glow: #22d3ee; /* Cyan 400*/
 }
 body {
     height: 100vh;
@@ -104,19 +105,22 @@ button.rotate {
 }
 button.rotate:hover {filter: brightness(1.1);}
 button.rotate:active {filter: brightness(0.9);}
-/* ============================ Models ============================= */
+/* ======================= Model Container ========================= */
+/* ================================================================= */
 .modelboard-container {
     background-color: var(--board-bg);
     height: 35vw;
     padding: 5px;
     border-radius: 4px;
+    border: 5px solid #0000;
 
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 .modelboard-container.active {
-    background-color: var(--active-board-bg);
+    border: 5px solid var(--border-glow);
+    box-shadow: 0 0 15px var(--border-glow);
 }
 .model-container {
     padding: 5px;
@@ -185,10 +189,11 @@ button.rotate:active {filter: brightness(0.9);}
 /* ============================= Board ============================= */
 /* ================================================================= */
 .gameboard {
-    border-radius: 4px;
-    background-color: var(--board-bg);
     width: 35vw;
     height: 35vw;
+    background-color: var(--board-bg);
+    border-radius: 4px;
+    border: 5px solid #0000;
 
     padding: 5px;
 
