@@ -91,12 +91,7 @@ DOM.updateGameboard = function(game) {
     for (let player of game.players) {
         for (let hit of player.board.hits) {
             let node = queryElement(['square'],
-                {
-                    x: hit.x,
-                    y: hit.y,
-                    player: player.name
-                });
-            console.log('hit node: ', node);
+                {x: hit.x,y: hit.y,player: player.name});
             node.classList.add('hit');
             node.textContent = 'x'; // TODO: change
         }
@@ -117,6 +112,10 @@ DOM.removeShip = function(playerName, ship) {
             {x: segment.x, y: segment.y, player: playerName});
         node.classList.remove('ship');
     }
+}
+DOM.removeHits = function() {
+    for (let node of queryArray(['square', 'hit']))
+        node.textContent = ''; // TODO: remove when replacing icon
 }
 // ========================== HIDING ==================================
 // ====================================================================
@@ -141,6 +140,7 @@ DOM.setButtons = function(game) {
     computerNode.onclick = () => function() {game.selectGameType('computer');}();
     confirmNode.onclick = () => function() {game.selectConfirm();}();
     autoGenNode.onclick = () => function() {game.selectAutoGen();}();
+    resetNode.onclick = () => function() {game.selectReset();}();
 
     peek.onmousedown = () => function() {game.reveal();}();
     peek.onmouseup = () => function() {game.hide();}();

@@ -28,7 +28,6 @@ export default class Gameboard {
                         return {status: 'failure', message: 'ship intersects other ship'};
             }
 
-        // this.ships.push(ship);
         this.ships[index] = ship;
         return {status: 'success'};
     }

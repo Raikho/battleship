@@ -21,6 +21,10 @@ export default class Player {
             this.models[index] = new Model(this.name, lengths[index], index, shape);
         }
     }
+
+    resetModels() {
+        this.generateModels();
+    }
 }
 
 class Model {

@@ -30,11 +30,6 @@ export default class Game {
         switch(state) {
             case 'start':
                 this.turnPlayer = null;
-                // clear board
-                // reset models
-                // reset ship select
-                // hide boards?
-                // update ??
                 break;
             case 'p1pick':
                 this.turnPlayer = this.players[0];
@@ -82,6 +77,25 @@ export default class Game {
         
         let nextState = (this.state === 'p1confirm') ? 'p2pick' : 'game';
         this.updateState(nextState);
+    }
+    
+    selectReset() {
+        if (this.isState('start')) return;
+        console.log('resetting...');
+
+        DOM.removeHits();
+        for (let player of this.players) {
+            DOM.revealPlayerBoard(player);
+            for (let ship of player.board.ships)
+                if (ship) DOM.removeShip(player.name, ship);
+            for (let model of player.models)
+                DOM.removeModel(player.name, model);
+
+            player.board.clear();
+            player.generateModels();
+        }
+
+        this.updateState('start');
     }
 
     clickModel(playerName, index) {
