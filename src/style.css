@@ -29,14 +29,26 @@ body {
     font-family: helvetica, sans-serif;
     font-size: min(18px, 2vw);
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 30% 30% 1fr;
+    grid-template-rows: 1fr 20% max-content 1fr;
+    grid-template-areas: 
+        ".      .       .       ."
+        ".      buttons logs    ."
+        "boards boards  boards  boards"
+        ".      .       .       . ";
+
     align-items: center;
+    justify-items: center;
+    gap: 10px;
 }
+
 /* ============================ Buttons ============================ */
 /* ================================================================= */
 #buttons {
+    grid-area: buttons;
+    align-self:center;
+
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -44,16 +56,31 @@ body {
 button {
     background-color: var(--accent);
     color: lightgray;
+    font-size:  1.5vw;
     font-weight: bold;
     padding: 4px 12px;
 }
 button:hover {filter: brightness(1.1);}
 button:not(.active) {
+    display: none;
     filter: opacity(.5);
+}
+/* ============================== Logs ============================= */
+/* ================================================================= */
+#logs {
+    grid-area: logs;
+
+    background-color: var(--board-bg);
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 2vw;
+    font-weight: bold;
 }
 /* ======================== Board Container ======================== */
 /* ================================================================= */
 #boards {
+    grid-area: boards;
+
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -240,13 +267,4 @@ button:not(.active) {
 :not(.hidden)>.ship:not(.cornerBR),
 .ship.sunk:not(.cornerBR) {
     border-bottom-right-radius: 20px;
-}
-/* ============================== Logs ============================= */
-/* ================================================================= */
-#logs {
-    background-color: var(--board-bg);
-    border-radius: 5px;
-    padding: 15px 30px;
-    font-size: 32px;
-    font-weight: bold;
 }
