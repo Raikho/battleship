@@ -201,6 +201,10 @@ button.rotate:active {filter: brightness(0.9);}
     grid-template-columns: repeat(11, 1fr);
     grid-template-rows: repeat(11, 1fr);
 }
+.gameboard.active {
+    border: 5px solid var(--border-glow);
+    box-shadow: 0 0 15px var(--border-glow);
+}
 .gameboard>* {
     justify-content: center;
     align-items: center;

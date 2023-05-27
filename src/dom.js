@@ -48,8 +48,12 @@ DOM.updateModels = function(game) {
 }
 
 DOM.updateActivePlayer = function(game) {
+    let turnPlayerName = (game.turnPlayer) ? game.turnPlayer.name : 'n/a';
     for (let boardNode of queryArray(['modelboard-container'])) {
-        let turnPlayerName = (game.turnPlayer) ? game.turnPlayer.name : 'n/a';
+        let isActive = (game.turnPlayer && turnPlayerName === boardNode.dataset.player) ? true : false;
+        setClasslist(boardNode, {active: isActive});
+    }
+    for (let boardNode of queryArray(['gameboard'])) {
         let isActive = (game.turnPlayer && turnPlayerName === boardNode.dataset.player) ? true : false;
         setClasslist(boardNode, {active: isActive});
     }
