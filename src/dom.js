@@ -117,6 +117,15 @@ DOM.removeHits = function() {
     for (let node of queryArray(['square', 'hit']))
         node.textContent = ''; // TODO: remove when replacing icon
 }
+
+DOM.post = function(msg) {
+    document.getElementById('logs').textContent = msg;
+}
+DOM.postNext = function(msg) {
+    let node = document.getElementById('logs');
+    node.textContent += '\n' + msg;
+}
+
 // ========================== HIDING ==================================
 // ====================================================================
 DOM.hidePlayerBoard = function(player) {

@@ -8,17 +8,17 @@ export default class Game {
     constructor() {
         this.players = [new Player('p1', 0, 'player'), 
                         new Player('p2', 1, 'player')];
-        console.log(this.players); // DEBUG
+        console.log('DEBUG: players ', this.players); // DEBUG
         this.turnPlayer = null;
         this.selectedModel = null;
         // TODO: consolidate pick/confirm
         // p1pick, p1confirm, p2pick, p2confirm, game, result, aipick?
-        this.state = 'start'; 
+        this.state = null; 
         
         DOM.setButtons(this);
         DOM.setModels(this);
         DOM.setGameboard(this);
-        this.update();
+        this.updateState('start');
 
     }
 
@@ -29,20 +29,26 @@ export default class Game {
 
         switch(state) {
             case 'start':
+                DOM.post('Welcome to Battleship! Please select game type.');
                 this.turnPlayer = null;
                 break;
             case 'p1pick':
+                DOM.post('Player 1, please place your ships.')
                 this.turnPlayer = this.players[0];
                 break;
             case 'p1confirm':
+                DOM.post('Player 1, press confirm to finalize ship placement.')
                 break;
             case 'p2pick':
+                DOM.post('Player 1, please place your ships.')
                 DOM.hidePlayerBoard(this.players[0]); // todo implement
                 this.turnPlayer = this.players[1];
                 break;
             case 'p2confirm':
+                DOM.post('Player 1, press confirm to finalize ship placement.')
                 break;
             case 'game':
+                DOM.post('Player 1, attack the enemy board.')
                 DOM.hidePlayerBoard(this.players[1]);
                 this.turnPlayer = this.players[0];
                 break;
@@ -131,18 +137,32 @@ export default class Game {
         else if (this.isState('game') && this.turnPlayer.name !== playerName) {
             let player = this.getPlayer(playerName);
             response = player.board.receiveAttack(x, y);
-            console.log(response);
+            console.log(playerName, response);
+
             if (response.status === 'success') {
-                this.switchPlayer();
-                // check if sunk
-                // chagne plaeyr
-                // check if game over
-                if (response.result === 'all enemy ships sunk') {
-                    console.log(`${player.name} has won!`)
-                    this.updateState('results');
+                let fullName = (this.turnPlayer.name === 'p1') ? 'Player 1' : 'Player 2';
+                let otherFullName = (playerName === 'p1') ? 'Player 1' : 'Player 2';
+                switch(response.result) {
+                    case 'empty square':
+                        DOM.post(`${fullName} missed!`);
+                        DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        break;
+                    case 'enemy ship hit':
+                        DOM.post(`${fullName} has hit a ship!`);
+                        DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        break;
+                    case 'enemy ship sunk':
+                        DOM.post(`${fullName} has sunk a ship!`);
+                        DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        break;
+                    case 'all enemy ships sunk':
+                        DOM.post(`${fullName} has sunk all enemy ships! ${fullName} wins!`);
+                        this.updateState('results');
+                        return;
                 }
+                this.switchPlayer();
+                this.update();
             }
-            this.update();
         }
     }   
     
