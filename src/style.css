@@ -12,10 +12,10 @@
 
     --active-board-bg: darkseagreen;
 
-    --rotate: blue;
-    --rotate-lighter: skyblue;
-    --delete: red;
-    --delete-lighter: pink;
+    --rotate: #1e1b4b;
+    --rotate-lighter: #10b981; /* Emerald 500 */
+    --delete: #1e1b4b;
+    --delete-lighter: #b91c1c; /* Red 700 */
 
 }
 body {
@@ -125,28 +125,26 @@ button.rotate:active {filter: brightness(0.9);}
     grid-template-columns: min-content 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: ". board" ". board";
-    gap: 2px;
+    column-gap: 5px;
 }
 .model-container[data-player="p2"] {
     grid-template-columns: 1fr min-content;
     grid-template-areas: "board ." "board .";
 }
+
+/* ============================ Model Icons =========================== */
 .icon {
     height: 20px;
     width: 20px;
+    background-color: indigo;
+    border-radius: 2px;
+    box-shadow: 5px 5px 5px red;
     -webkit-mask-size: contain;
     mask-size: contain;
-    background-color: indigo;
 
  
     align-self: center;
     justify-self: center;
-    border-radius: 2px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
 }
 .icon.rotate {
     -webkit-mask-image: url('assets/rotate.svg');
@@ -163,6 +161,7 @@ button.rotate:active {filter: brightness(0.9);}
 .icon.delete:hover {background-color: var(--delete-lighter);}
 .icon:active {filter: brightness(1.1)}
 
+/* ============================ Model Board =========================== */
 .modelboard {
     grid-area: board;
 
