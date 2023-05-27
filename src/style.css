@@ -27,7 +27,7 @@ body {
     background-color: var(--bg);
     color: var(--fg);
     font-family: helvetica, sans-serif;
-    font-size: 18px;
+    font-size: min(18px, 2vw);
 
     display: flex;
     flex-direction: column;
@@ -58,13 +58,30 @@ button:not(.active) {
     flex-direction: row;
     gap: 20px;
 }
-.board-container {
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    gap: 20px;
+
+@media(min-aspect-ratio: 1) {
+    .board-container {
+        display: grid;
+        grid-template-columns: min-content 1fr 1fr min-content;
+        grid-template-areas: "models1 board1 board2 models2";
+    
+        justify-items: center;
+        align-items: center;
+        gap: 1vw;
+    }
 }
-.ship-container {
+@media (max-aspect-ratio: 1) {
+    .board-container {
+        display: grid;
+        grid-template-columns: min-content 1fr  min-content;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+            "models1 board1 board1" 
+            "board2 board2 models2";
+        gap: 1vw;
+    }
+}
+/* .ship-container {
     height: 35vw;
     padding: 5px;
     background-color: var(--board-bg);
@@ -75,38 +92,12 @@ button:not(.active) {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
-/* =========================== Ship Labels ========================= */
-.ship-label {
-    border: 1px solid #fff8;
-    border-radius: 5px;
-    position: relative;
-    padding: 10px;
+} */
 
-    /* display: flex;
-    justify-content: center; */
-}
-.ship-label:hover,
-.ship-label[data-used="true"]:hover {
-    background-color: #fff8;
-}
-.ship-label[data-used="true"] {
-    border: none;
-    background-color: #fff6;
-}
-.ship-label:active {backdrop-filter: brightness(1.1)}
-button.rotate {
-    padding: 0;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    /* top: 0px; */
-    /* display: block; */
-}
-button.rotate:hover {filter: brightness(1.1);}
-button.rotate:active {filter: brightness(0.9);}
 /* ======================= Model Container ========================= */
 /* ================================================================= */
+.modelboard-container[data-player="p1"] {grid-area: models1}
+.modelboard-container[data-player="p2"] {grid-area: models2}
 .modelboard-container {
     background-color: var(--board-bg);
     height: 35vw;
@@ -123,8 +114,6 @@ button.rotate:active {filter: brightness(0.9);}
     box-shadow: 0 0 15px var(--border-glow);
 }
 .model-container {
-    padding: 5px;
-
     display: grid;
     grid-template-columns: min-content 1fr;
     grid-template-rows: 1fr 1fr;
@@ -138,8 +127,8 @@ button.rotate:active {filter: brightness(0.9);}
 
 /* ============================ Model Icons =========================== */
 .icon {
-    height: 20px;
-    width: 20px;
+    height: min(20px, 2vw);
+    width: min(20px, 2vw);
     background-color: indigo;
     border-radius: 2px;
     box-shadow: 5px 5px 5px red;
@@ -171,8 +160,8 @@ button.rotate:active {filter: brightness(0.9);}
 
     border: 2px solid whitesmoke;
     border-radius: 2px;
-    width: 50px;
-    height: 50px;
+    width: 5vw;
+    height: 5vw;
 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -188,13 +177,14 @@ button.rotate:active {filter: brightness(0.9);}
 }
 /* ============================= Board ============================= */
 /* ================================================================= */
+.gameboard[data-player="p1"] {grid-area: board1}
+.gameboard[data-player="p2"] {grid-area: board2}
 .gameboard {
     width: 35vw;
     height: 35vw;
     background-color: var(--board-bg);
     border-radius: 4px;
     border: 5px solid #0000;
-
     padding: 5px;
 
     display: grid;
