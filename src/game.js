@@ -29,6 +29,7 @@ export default class Game {
 
         switch(state) {
             case 'start':
+                this.turnPlayer = null;
                 // clear board
                 // reset models
                 // reset ship select
@@ -47,7 +48,8 @@ export default class Game {
             case 'p2confirm':
                 break;
             case 'game':
-                DOM.hidePlayerBoard(this.players[1]); // todo implement
+                DOM.hidePlayerBoard(this.players[1]);
+                this.turnPlayer = this.players[0];
                 break;
         }
         this.update();
@@ -100,14 +102,28 @@ export default class Game {
                     result = this.placeModel(x, y, this.getPlayer(playerName));
                 }
             }
-        }
 
-        if (result.status === 'success') {
-            this.update();
-            if (this.turnPlayer.board.shipsFull) {
-                let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
-                this.updateState(nextState);
+            if (result.status === 'success') {
+                this.update();
+                if (this.turnPlayer.board.shipsFull) {
+                    let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
+                    this.updateState(nextState);
+                }
             }
+        }
+        else if (this.isState('game') && this.turnPlayer.name !== playerName) {
+            let player = this.getPlayer(playerName);
+            result = player.board.receiveAttack(x, y);
+            console.log(result);
+            if (result.status === 'success') {
+
+
+                this.switchPlayer();
+            }
+            // check if sunk
+            // chagne plaeyr
+            // check if game over
+            this.update();
         }
     }   
     
@@ -138,7 +154,14 @@ export default class Game {
             this.update();
         }
     }
-
+    reveal() {
+        if (!this.isState('game')) return;
+        DOM.revealPlayerBoard(this.turnPlayer);
+    }
+    hide() {
+        if (!this.isState('game')) return;
+        DOM.hidePlayerBoard(this.turnPlayer);
+    }
     // =========================== ACTIONS ============================
     // ================================================================
     selectModel(playerName, index) {
@@ -218,6 +241,15 @@ export default class Game {
         for (let player of this.players)
             if (player.name === playerName)
                 return player;
+    }
+    getOtherPlayer(playerName) {
+        let player = this.getPlayer(playerName);
+        let otherIndex = (player.name === this.players[0].name) ? 1 : 0;
+        return this.players[otherIndex];
+    }
+    switchPlayer() {
+        let otherIndex = (this.turnPlayer.index === 0) ? 1 : 0;
+        this.turnPlayer = this.players[otherIndex];
     }
 
     isState(stateArgs) {

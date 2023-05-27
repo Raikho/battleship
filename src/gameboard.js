@@ -52,22 +52,26 @@ export default class Gameboard {
                 return {status: 'failure', message: 'square already hit'};
 
         this.hits.push({x, y});
+        let response = {status: 'success', result: 'empty square'};
 
         for (let ship of this.ships) {
             for (let segment of ship.segments) {
                 if (segment.x == x && segment.y == y) {
                     segment.isHit = true;
+
                     if (!ship.isSunk())
-                        return {status: 'success', result: 'enemy ship hit'};
+                        response.result = 'enemy ship hit';
                     else if (this.areShipsSunk())
-                        return {status: 'success', result: 'all enemy ships sunk'};
+                        response.result = 'all enemy ships sunk';
                     else
-                        return {status: 'success', result: 'enemy ship sunk'};
+                        response.result = 'enemy ship sunk';
                 }
             }
+            if (ship.isSunk())
+                for (let segment of ship.segments)
+                    segment.sunk = true;
         }
-
-        return {status: 'success', result: 'empty square'};
+        return response;
     }
 
     areShipsSunk() {

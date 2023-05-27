@@ -56,7 +56,8 @@ class Segment {
     }
     get bools() {
         return {
-            hit: this.hit, 
+            hit: this.hit,
+            sunk: this.sunk,
             cornerTL: this.cornerTL,
             cornerTR: this.cornerTR,
             cornerBL: this.cornerBL,

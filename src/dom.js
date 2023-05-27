@@ -88,6 +88,19 @@ DOM.updateGameboard = function(game) {
             }
         }
     }
+    for (let player of game.players) {
+        for (let hit of player.board.hits) {
+            let node = queryElement(['square'],
+                {
+                    x: hit.x,
+                    y: hit.y,
+                    player: player.name
+                });
+            console.log('hit node: ', node);
+            node.classList.add('hit');
+            node.textContent = 'x'; // TODO: change
+        }
+    }
 }
 DOM.removeModel = function(playerName, model) {
     for (let segment of model.ship.segments) {
@@ -108,10 +121,10 @@ DOM.removeShip = function(playerName, ship) {
 // ========================== HIDING ==================================
 // ====================================================================
 DOM.hidePlayerBoard = function(player) {
-    let boardNode = queryElement(['gameboard'], {player: player.name})
-    boardNode.classList.add('hidden');
+    queryElement(['gameboard'], {player: player.name}).classList.add('hidden');
 }
 DOM.revealPlayerBoard = function(player) {
+    queryElement(['gameboard'], {player: player.name}).classList.remove('hidden');
 }
 
 // ========================== BUTTONS =================================
@@ -127,8 +140,10 @@ DOM.setButtons = function(game) {
     twoPlayerNode.onclick = () => function() {game.selectGameType('player');}();
     computerNode.onclick = () => function() {game.selectGameType('computer');}();
     confirmNode.onclick = () => function() {game.selectConfirm();}();
-
     autoGenNode.onclick = () => function() {game.selectAutoGen();}();
+
+    peek.onmousedown = () => function() {game.reveal();}();
+    peek.onmouseup = () => function() {game.hide();}();
 }
 
 DOM.updateButtons = function(state) {

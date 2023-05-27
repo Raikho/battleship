@@ -205,41 +205,22 @@ button.rotate:active {filter: brightness(0.9);}
 }
 /* =========================== Ship Corners ======================== */
 
-:not(.hidden)>.ship:not(.cornerTL) {
+:not(.hidden)>.ship:not(.cornerTL),
+.ship.sunk:not(.cornerTL) {
     border-top-left-radius: 20px;
 }
-:not(.hidden)>.ship:not(.cornerTR) {
+:not(.hidden)>.ship:not(.cornerTR),
+.ship.sunk:not(.cornerTR) {
     border-top-right-radius: 20px;
 }
-:not(.hidden)>.ship:not(.cornerBL) {
+:not(.hidden)>.ship:not(.cornerBL),
+.ship.sunk:not(.cornerBL) {
     border-bottom-left-radius: 20px;
 }
-:not(.hidden)>.ship:not(.cornerBR) {
+:not(.hidden)>.ship:not(.cornerBR),
+.ship.sunk:not(.cornerBR) {
     border-bottom-right-radius: 20px;
 }
-
-
-/* .hidden>.square.ship {border-radius: 0px;}
-.hidden>.sunk.ship {border-radius: 20px;}
-
-.gameboard.hidden>.square.ship.cornerTL,
-.modelsquare.cornerTL,
-.hidden>.sunk.ship.cornerTL {border-top-left-radius: 0px;}
-
-.gameboard.hidden>.square.ship.cornerTR,
-.modelsquare.cornerTR,
-.hidden>.sunk.ship.cornerTR {border-top-right-radius: 0px;}
-
-.gameboard.hidden>.square.ship.cornerBL,
-.modelsquare.cornerBL,
-.hidden>.sunk.ship.cornerBL {border-bottom-left-radius: 0px;}
-
-.gameboard.hidden>.square.ship.cornerBR,
-.modelsquare.cornerBR,
-.hidden>.sunk.ship.cornerBR {border-bottom-right-radius: 0px;} */
-
-
-
 /* ============================== Logs ============================= */
 /* ================================================================= */
 #logs {
