@@ -46,6 +46,9 @@ export default class Game {
                 DOM.hidePlayerBoard(this.players[1]);
                 this.turnPlayer = this.players[0];
                 break;
+            case 'results':
+                DOM.revealPlayerBoard(this.players[0]);
+                break;
         }
         this.update();
     }
@@ -108,16 +111,16 @@ export default class Game {
     }
     clickSquare(x, y, playerName) {
         console.log(`square clicked at ${playerName}, x:${x}, y:${y}`);
-        let result = {status: 'failure'};
+        let response = {status: 'failure'};
 
         if (this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm')) {
             if (this.selectedModel && !this.selectedModel.placed) {
                 if (playerName === this.selectedModel.name && playerName === this.turnPlayer.name) {
-                    result = this.placeModel(x, y, this.getPlayer(playerName));
+                    response = this.placeModel(x, y, this.getPlayer(playerName));
                 }
             }
 
-            if (result.status === 'success') {
+            if (response.status === 'success') {
                 this.update();
                 if (this.turnPlayer.board.shipsFull) {
                     let nextState = (this.state === 'p1pick') ? 'p1confirm' : 'p2confirm';
@@ -127,16 +130,18 @@ export default class Game {
         }
         else if (this.isState('game') && this.turnPlayer.name !== playerName) {
             let player = this.getPlayer(playerName);
-            result = player.board.receiveAttack(x, y);
-            console.log(result);
-            if (result.status === 'success') {
-
-
+            response = player.board.receiveAttack(x, y);
+            console.log(response);
+            if (response.status === 'success') {
                 this.switchPlayer();
+                // check if sunk
+                // chagne plaeyr
+                // check if game over
+                if (response.result === 'all enemy ships sunk') {
+                    console.log(`${player.name} has won!`)
+                    this.updateState('results');
+                }
             }
-            // check if sunk
-            // chagne plaeyr
-            // check if game over
             this.update();
         }
     }   

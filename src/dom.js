@@ -201,14 +201,6 @@ function createTextDiv(parent, text) {
     node.textContent = text;
     return node;
 }
-function createButton(parent, classArray) {
-    let node = document.createElement('button');
-    parent.append(node);
-    if (classArray)
-        for (let cls of classArray)
-            node.classList.add(cls);
-    return node;
-}
 
 function queryArray(classArray, dataObject) {
     let string = '';
@@ -221,15 +213,6 @@ function queryArray(classArray, dataObject) {
 
 function queryElement(classArray, dataObject) {
     let string = '';
-    for (let cls of classArray)
-        string += '.' + cls;
-    for (let key in dataObject)
-        string += `[data-${key}="${dataObject[key]}"]`
-    return document.querySelector(string);
-}
-
-function queryChildElement(parentClass, classArray, dataObject) {
-    let string = ``;
     for (let cls of classArray)
         string += '.' + cls;
     for (let key in dataObject)
