@@ -15,8 +15,8 @@ DOM.setModels = function(game) {
         let containerNode = boardNode.parentNode;
         containerNode.dataset.player = boardNode.dataset.player;
 
-        let rotateNode = createDiv(containerNode, ['icon', 'rotate'], null, 'o');
-        let deleteNode = createDiv(containerNode, ['icon', 'delete'], null, 'x');
+        let rotateNode = createDiv(containerNode, ['icon', 'rotate'], null);
+        let deleteNode = createDiv(containerNode, ['icon', 'delete'], null);
         rotateNode.onclick = () => function() {
             game.clickRotateModel(boardNode.dataset.player, boardNode.dataset.index);
         }();
