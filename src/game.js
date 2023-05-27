@@ -146,21 +146,21 @@ export default class Game {
                     case 'empty square':
                         DOM.post(`${fullName} missed!`);
                         DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        this.switchPlayer();
                         break;
                     case 'enemy ship hit':
                         DOM.post(`${fullName} has hit a ship!`);
-                        DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        DOM.postNext(`${fullName}, continue attacking.`);
                         break;
                     case 'enemy ship sunk':
                         DOM.post(`${fullName} has sunk a ship!`);
-                        DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        DOM.postNext(`${fullName}, continue attacking.`);
                         break;
                     case 'all enemy ships sunk':
                         DOM.post(`${fullName} has sunk all enemy ships! ${fullName} wins!`);
                         this.updateState('results');
                         return;
                 }
-                this.switchPlayer();
                 this.update();
             }
         }
