@@ -123,7 +123,7 @@ DOM.post = function(msg) {
 }
 DOM.postNext = function(msg) {
     let node = document.getElementById('logs');
-    node.textContent += '\n' + msg;
+    node.textContent += ' ' + msg;
 }
 
 // ========================== HIDING ==================================
