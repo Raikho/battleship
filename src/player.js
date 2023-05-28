@@ -26,6 +26,13 @@ export default class Player {
     resetModels() {
         this.generateModels();
     }
+
+    updateSunkModels() {
+        for (let i = 0; i < this.models.length; i++) {
+            let ship = this.board.ships[i];
+            this.models[i].sunk = ship.isSunk();
+        }
+    }
 }
 
 class Model {

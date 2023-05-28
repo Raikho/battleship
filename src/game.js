@@ -153,10 +153,12 @@ export default class Game {
                         DOM.postNext(`${fullName}, continue attacking.`);
                         break;
                     case 'enemy ship sunk':
+                        player.updateSunkModels();
                         DOM.post(`${fullName} has sunk a ship!`);
                         DOM.postNext(`${fullName}, continue attacking.`);
                         break;
                     case 'all enemy ships sunk':
+                        player.updateSunkModels();
                         DOM.post(`${fullName} has sunk all enemy ships! ${fullName} wins!`);
                         this.updateState('results');
                         return;
