@@ -109,8 +109,8 @@ export default class Game {
 
     clickModel(playerName, index) {
         console.log(`model clicked at ${playerName}, ${index}`);
+        if (!this.isState('p1pick', 'p1confirm', 'p2pick', 'p2confirm')) return;
 
-        // Check state
         this.selectModel(playerName, index)
 
         this.update();
