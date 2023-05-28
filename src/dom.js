@@ -157,6 +157,8 @@ DOM.setButtons = function(game) {
 
     peek.onmousedown = () => function() {game.reveal();}();
     peek.onmouseup = () => function() {game.hide();}();
+    peek.addEventListener('touchstart', () => game.reveal());
+    peek.addEventListener('touchend', () => game.hide());
 }
 
 DOM.updateButtons = function(state) {
