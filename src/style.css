@@ -31,19 +31,23 @@ body {
     font-size: min(18px, 2vw);
 
     display: grid;
-    grid-template-columns: 1fr 30% 30% 1fr;
-    grid-template-rows: 1fr 20% max-content 1fr;
-    grid-template-areas: 
-        ".      .       .       ."
-        ".      buttons logs    ."
-        "boards boards  boards  boards"
-        ".      .       .       . ";
+    grid-template-rows: 1fr min-content max-content 1fr;
+    grid-template-areas: "." "info" "boards" ".";
 
     align-items: center;
     justify-items: center;
     gap: 10px;
 }
-
+#info {
+    grid-area: info;
+    align-self: end;
+    width: 50vw;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "buttons logs";
+    gap: 20px;
+}
 /* ============================ Buttons ============================ */
 /* ================================================================= */
 #buttons {
@@ -81,6 +85,7 @@ button:not(.active) {
 /* ================================================================= */
 #boards {
     grid-area: boards;
+    align-self: start;
 
     display: flex;
     flex-direction: row;
