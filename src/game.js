@@ -1,6 +1,15 @@
 import Player from './player.js'
 import DOM from './dom.js'
 
+import sonarResource from './assets/sonar.mp3';
+import splashResource from './assets/splash.mp3';
+import thumpResource from './assets/thump.mp3';
+const sonar = new Audio(sonarResource);
+const splash = new Audio(splashResource);
+const thump = new Audio(thumpResource);
+sonar.play();
+
+
 // const boardNode1 = document.querySelector('.board.player1');
 // const boardNode2 = document.querySelector('.board.player2');
 
@@ -146,21 +155,25 @@ export default class Game {
                     case 'empty square':
                         DOM.post(`${fullName} missed!`);
                         DOM.postNext(`${otherFullName}, attack the enemy board.`);
+                        splash.play(); // TODO
                         this.switchPlayer();
                         break;
                     case 'enemy ship hit':
                         DOM.post(`${fullName} has hit a ship!`);
                         DOM.postNext(`${fullName}, continue attacking.`);
+                        thump.play();
                         break;
                     case 'enemy ship sunk':
                         player.updateSunkModels();
                         DOM.post(`${fullName} has sunk a ship!`);
                         DOM.postNext(`${fullName}, continue attacking.`);
+                        thump.play();
                         break;
                     case 'all enemy ships sunk':
                         player.updateSunkModels();
                         DOM.post(`${fullName} has sunk all enemy ships! ${fullName} wins!`);
                         this.updateState('results');
+                        thump.play(); // TODO
                         return;
                 }
                 this.update();
@@ -228,7 +241,6 @@ export default class Game {
         this.update();
     }
 
-
     placeModel(x, y, player, manualModel) {
         let model = (manualModel || this.selectedModel);
         let result = player.board.addShip(x, y, model.ship.length, model.ship.shape, model.index);
@@ -236,6 +248,7 @@ export default class Game {
 
         if (result.status === 'success') {
             model.placed = true;
+            sonar.play(); // TODO:
         }
         return result;
     }
