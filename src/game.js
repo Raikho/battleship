@@ -49,12 +49,20 @@ export default class Game {
                 DOM.post('Player 1, press confirm to finalize ship placement.')
                 break;
             case 'p2pick':
-                DOM.post('Player 1, please place your ships.')
-                DOM.hidePlayerBoard(this.players[0]); // todo implement
+                DOM.post('Player 2, please place your ships.')
+                DOM.hidePlayerBoard(this.players[0]);
                 this.turnPlayer = this.players[1];
+                if (this.isComputer()) {
+                    console.log("auto generating computer's ships..."); // debug
+                    this.selectAutoGen();
+                }
                 break;
             case 'p2confirm':
-                DOM.post('Player 1, press confirm to finalize ship placement.')
+                DOM.post('Player 2, press confirm to finalize ship placement.')
+                if (this.isComputer()) {
+                    console.log("auto confirming computer's ships..."); // debug
+                    this.selectConfirm();
+                }
                 break;
             case 'game':
                 DOM.post('Player 1, attack the enemy board.')
@@ -157,6 +165,13 @@ export default class Game {
                         DOM.postNext(`${otherFullName}, attack the enemy board.`);
                         splash.play(); // TODO
                         this.switchPlayer();
+
+                        if (this.turnPlayer.name === 'p2' && this.isComputer()) {
+                            console.log("auto attacking on computer's turn");
+                            this.update();
+                            this.autoAttack();
+                            return;
+                        }
                         break;
                     case 'enemy ship hit':
                         DOM.post(`${fullName} has hit a ship!`);
@@ -181,6 +196,45 @@ export default class Game {
         }
     }   
     
+    autoAttack() {
+        // filter hits to one with ships but unsunk
+        // if none, then try random
+
+        let response = {status: 'failure'};
+
+        while (response.status === 'failure') {
+            let x = Math.ceil((Math.random() * 10));
+            let y = Math.ceil((Math.random() * 10));
+            response = this.players[0].board.receiveAttack(x, y);
+            console.log(`auto attacking at ${x},${y} response:`, response);
+        }
+        switch(response.result) {
+            case 'empty square':
+                DOM.post(`The computer missed!`);
+                DOM.postNext(`Player 1, attack the enemy board.`);
+                this.switchPlayer();
+                this.update();
+                break;
+            case 'enemy ship hit':
+                DOM.post(`The computer has hit a ship!`);
+                this.update();
+                // TODO: set timeout
+                this.autoAttack();
+                break;
+            case 'enemy ship sunk':
+                this.players[0].updateSunkModels();
+                DOM.post(`The computer has sunk a ship!`);
+                this.update();
+                // TODO: set timeout
+                break;
+            case 'all enemy ships sunk':
+                this.players[0].updateSunkModels();
+                DOM.post(`The computerhas sunk all enemy ships! The computer wins!`);
+                this.updateState('results');
+                return;
+        }
+    }
+
     clickRotateModel(playerName, index) {
         if (!this.isState('p1pick', 'p2pick', 'p1confirm', 'p2confirm')) return;
         let player = this.getPlayer(playerName);
@@ -311,5 +365,8 @@ export default class Game {
             if (this.state === state)
                 return true;
         return false;
+    }
+    isComputer() {
+        return (this.players[1].type === 'computer')
     }
 }
