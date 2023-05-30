@@ -7,7 +7,7 @@ import thumpResource from './assets/thump.mp3';
 const sonar = new Audio(sonarResource);
 const splash = new Audio(splashResource);
 const thump = new Audio(thumpResource);
-sonar.play();
+sonar.play(); 
 
 
 // const boardNode1 = document.querySelector('.board.player1');
@@ -18,6 +18,7 @@ export default class Game {
         this.players = [new Player('p1', 0, 'player'), 
                         new Player('p2', 1, 'player')];
         console.log('DEBUG: players ', this.players); // DEBUG
+        this.delayed = false;
         this.turnPlayer = null;
         this.selectedModel = null;
         // TODO: consolidate pick/confirm
@@ -29,6 +30,7 @@ export default class Game {
         DOM.setGameboard(this);
         this.updateState('start');
 
+        this.setDelay(2000);
     }
 
     updateState(state) {
@@ -79,6 +81,7 @@ export default class Game {
     // ============================ INPUT =============================
     // ================================================================
     selectGameType(type) {
+        if (this.delayed) return;
         if (!this.isState('start')) return;
 
         this.players[1].type = type;
@@ -368,5 +371,15 @@ export default class Game {
     }
     isComputer() {
         return (this.players[1].type === 'computer')
+    }
+
+    setDelay(ms) {
+        this.delayed = true;
+        thump.play(); // TODO: change
+        document.body.style.cursor = 'progress';
+        setTimeout(() => {
+            this.delayed = false;
+            document.body.style.cursor = 'default';
+        }, ms);
     }
 }
