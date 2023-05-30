@@ -29,6 +29,14 @@ export default class Gameboard {
             }
 
         this.ships[index] = ship;
+        // let seg0 = ship.segments[0]; // debug
+        // let seg1 = ship.segments[1]; // debug
+        // seg0.hit = true; // DEBUG
+        // seg1.hit = true; // DEBUG
+        // seg0.sunk = ship.isSunk(); // DEBUG
+        // seg1.sunk = ship.isSunk(); // DEBUG
+        // this.hits.push({x: seg0.x, y: seg0.y}); // debug
+        // this.hits.push({x: seg1.x, y: seg1.y}); // debug
         return {status: 'success'};
     }
 
@@ -56,7 +64,7 @@ export default class Gameboard {
         for (let ship of this.ships) {
             for (let segment of ship.segments) {
                 if (segment.x == x && segment.y == y) {
-                    segment.isHit = true;
+                    segment.hit = true;
 
                     if (!ship.isSunk())
                         response.result = 'enemy ship hit';
@@ -71,6 +79,40 @@ export default class Gameboard {
                     segment.sunk = true;
         }
         return response;
+    }
+
+    receiveSmartAttack() {
+        let hitSegments = [];
+        for (let ship of this.ships)
+            for (let segment of ship.segments)
+                if (segment.hit && !ship.isSunk())
+                    hitSegments.push(segment);
+
+        if (hitSegments.length == 0) {
+            let x = Math.ceil(Math.random()*10);
+            let y = Math.ceil(Math.random()*10);
+            console.log('First auto attack w/ random x,y');
+            return this.receiveAttack(x, y);
+        }
+
+        let adjacentHits = [];
+        for (let segment of hitSegments) {
+            adjacentHits.push({x: segment.x + 1, y: segment.y});
+            adjacentHits.push({x: segment.x - 1, y: segment.y});
+            adjacentHits.push({x: segment.x, y: segment.y + 1});
+            adjacentHits.push({x: segment.x, y: segment.y - 1});
+        }
+
+        let boundFiltered = adjacentHits.filter(hit => !isOutOfBounds(hit.x, hit.y))
+        let hitFiltered = boundFiltered.filter(hit => {
+            for (let prevHit of this.hits) {
+                if (hit.x == prevHit.x && hit.y == prevHit.y)
+                    return false;
+            }
+            return true;
+        });
+
+        return this.receiveAttack(hitFiltered[0].x, hitFiltered[0].y);
     }
 
     areShipsSunk() {
@@ -108,5 +150,5 @@ export default class Gameboard {
 }
 
 function isOutOfBounds(x, y) {
-    return (x > 10 || x < 0 || y > 10 || y < 0);
+    return (x > 10 || x <= 0 || y > 10 || y <= 0);
 }

@@ -20,15 +20,17 @@ export default class Ship {
         this.segments.forEach(segment => {
             if (x == segment.x && y == segment.y) {
                 segment.isHit = true;
-                if (this.isSunk()) // TODO: test
-                    this.segments.forEach(segment => segment.sunk = true);
             }
         });
+        if (this.isSunk())
+        this.segments.forEach(segment => segment.sunk = true);
     }
-    isSunk() {return (this.hits >= this.segments.length)}
-    // static copyFrom(ship, x, y) {
-    //     return new Ship(x, y, ship.length, ship.shape);
-    // }
+    isSunk() {
+        for (let segment of this.segments)
+            if (!segment.hit)
+                return false;
+        return true;
+    }
     get width() {
         let arr = this.segments.map(segment => segment.x);
         let min = arr.reduce((prev, cur) => {return (cur < prev) ? cur : prev;}, 0);

@@ -13,7 +13,7 @@ export default class Player {
     }
 
     generateModels(randomShapes = false) {
-        let lengths = [2, 3, 3, 4, 5]
+        let lengths = [2, 3, 3, 4, 5];
         for (let index = 0; index < 5; index++) {
             let shape = 'vertical';
             if (randomShapes)

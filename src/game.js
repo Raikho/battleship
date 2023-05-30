@@ -7,7 +7,7 @@ import thumpResource from './assets/thump.mp3';
 const sonar = new Audio(sonarResource);
 const splash = new Audio(splashResource);
 const thump = new Audio(thumpResource);
-sonar.play(); 
+// sonar.play(); 
 
 
 // const boardNode1 = document.querySelector('.board.player1');
@@ -237,10 +237,8 @@ export default class Game {
             setTimeout(() => {
                 let response = {status: 'failure'};
                 while (response.status === 'failure') {
-                    let x = this.rand10();
-                    let y = this.rand10();
-                    response = this.players[0].board.receiveAttack(x, y);
-                    console.log(`auto attacking at ${x},${y} response:`, response);
+                    response = this.players[0].board.receiveSmartAttack();
+                    console.log(`auto attacking, response:`, response);
                 }
                 resolve(response);
             }, milliseconds);
@@ -380,10 +378,6 @@ export default class Game {
     }
     isComputer() {
         return (this.players[1].type === 'computer')
-    }
-
-    rand10() {
-        return Math.ceil(Math.random()*10);
     }
 
     setDelay(ms) {
