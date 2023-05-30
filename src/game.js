@@ -85,6 +85,9 @@ export default class Game {
         if (!this.isState('start')) return;
 
         this.players[1].type = type;
+        if (type === 'computer')
+            DOM.updateEnemyColor();
+
         this.updateState('p1pick');
     }
 
@@ -120,6 +123,7 @@ export default class Game {
             for (let model of player.models)
                 DOM.removeModel(player.name, model);
 
+            DOM.resetEnemyColor();
             player.board.clear();
             player.generateModels();
         }

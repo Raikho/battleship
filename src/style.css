@@ -19,6 +19,7 @@
     --delete-lighter: #b91c1c; /* Red 700 */
 
     --border-glow: #22d3ee; /* Cyan 400*/
+    --border-glow-enemy: #f87171; /* Red 400*/
 }
 body {
     height: 100vh;
@@ -134,6 +135,10 @@ button:not(.active) {
     border: 5px solid var(--border-glow);
     box-shadow: 0 0 15px var(--border-glow);
 }
+.modelboard-container.active.computer {
+    border: 5px solid var(--border-glow-enemy);
+    box-shadow: 0 0 15px var(--border-glow-enemy);
+}
 .model-container {
     display: grid;
     grid-template-columns: min-content 1fr;
@@ -218,6 +223,10 @@ button:not(.active) {
 .gameboard.active {
     border: 5px solid var(--border-glow);
     box-shadow: 0 0 15px var(--border-glow);
+}
+.gameboard.active.computer {
+    border: 5px solid var(--border-glow-enemy);
+    box-shadow: 0 0 15px var(--border-glow-enemy);
 }
 .gameboard>* {
     justify-content: center;

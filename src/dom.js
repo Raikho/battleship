@@ -101,6 +101,22 @@ DOM.updateGameboard = function(game) {
         }
     }
 }
+
+DOM.updateEnemyColor = function() {
+    let gameboardNode = queryElement(['gameboard'], {player: 'p2'})
+    let modelboardNode = queryElement(['modelboard-container'], {player: 'p2'})
+    gameboardNode.classList.add('computer');
+    modelboardNode.classList.add('computer');
+    console.log('setting enemy node color class');
+}
+DOM.resetEnemyColor = function() {
+    let gameboardNode = queryElement(['gameboard'], {player: 'p2'})
+    let modelboardNode = queryElement(['modelboard-container'], {player: 'p2'})
+    gameboardNode.classList.remove('computer');
+    modelboardNode.classList.remove('computer');
+    console.log('unsetting enemy node color class');
+}
+
 DOM.removeModel = function(playerName, model) {
     for (let segment of model.ship.segments) {
         let node = queryElement(['modelsquare'], {
