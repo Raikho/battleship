@@ -30,7 +30,7 @@ export default class Game {
         DOM.setGameboard(this);
         this.updateState('start');
 
-        this.setDelay(2000);
+        this.setDelay(600);
     }
 
     updateState(state) {
@@ -199,10 +199,54 @@ export default class Game {
         }
     }   
     
-    autoAttack() {
+    async autoAttack() {
+        let response = {status: 'failure', result: null};
+        while (response.result !== 'empty square') {
+            response = await this.attackAndWait();
+            switch(response.result) {
+                case 'empty square':
+                    DOM.post(`The computer missed!`);
+                    DOM.postNext(`Player 1, attack the enemy board.`);
+                    this.switchPlayer();
+                    this.update();
+                    break;
+                case 'enemy ship hit':
+                    DOM.post(`The computer has hit a ship!`);
+                    this.update();
+                    break;
+                case 'enemy ship sunk':
+                    this.players[0].updateSunkModels();
+                    DOM.post(`The computer has sunk a ship!`);
+                    this.update();
+                    break;
+                case 'all enemy ships sunk':
+                    this.players[0].updateSunkModels();
+                    DOM.post(`The computerhas sunk all enemy ships! The computer wins!`);
+                    this.updateState('results');
+                    return;
+            }
+        }
+    }
+
+    async attackAndWait() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let response = {status: 'failure'};
+                while (response.status === 'failure') {
+                    let x = this.rand10();
+                    let y = this.rand10();
+                    response = this.players[0].board.receiveAttack(x, y);
+                    console.log(`auto attacking at ${x},${y} response:`, response);
+                }
+                resolve(response);
+            }, 1000);
+        });
+    }
+
+    autoAttack_OLD() { // TODO: DELETE
         // filter hits to one with ships but unsunk
         // if none, then try random
-
+        this.setDelay(700); // change
         let response = {status: 'failure'};
 
         while (response.status === 'failure') {
@@ -229,6 +273,7 @@ export default class Game {
                 DOM.post(`The computer has sunk a ship!`);
                 this.update();
                 // TODO: set timeout
+                this.autoAttack();
                 break;
             case 'all enemy ships sunk':
                 this.players[0].updateSunkModels();
@@ -371,6 +416,10 @@ export default class Game {
     }
     isComputer() {
         return (this.players[1].type === 'computer')
+    }
+
+    rand10() {
+        return Math.ceil(Math.random()*10);
     }
 
     setDelay(ms) {
