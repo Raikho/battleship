@@ -97,7 +97,7 @@ DOM.updateGameboard = function(game) {
             let node = queryElement(['square'],
                 {x: hit.x,y: hit.y,player: player.name});
             node.classList.add('hit');
-            node.textContent = 'x'; // TODO: change
+            // node.textContent = 'x'; // TODO: change
         }
     }
 }

@@ -206,7 +206,7 @@ export default class Game {
     async autoAttack() {
         let response = {status: 'failure', result: null};
         while (response.result !== 'empty square') {
-            response = await this.attackAndWait(500);
+            response = await this.attackAndWait(1000);
             switch(response.result) {
                 case 'empty square':
                     DOM.post(`The computer missed!`);
@@ -227,7 +227,7 @@ export default class Game {
                     this.players[0].updateSunkModels();
                     DOM.post(`The computerhas sunk all enemy ships! The computer wins!`);
                     this.updateState('results');
-                    return;
+                    break;
             }
         }
     }

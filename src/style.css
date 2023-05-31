@@ -245,7 +245,8 @@ button:not(.active) {
     background-color: var(--indigo);
 }
 .hidden>.ship {
-    background-color: #0E749099;
+    /* background-color: #0E749099; */
+    background-color: var(--accent);
 }
 .square.hit {
     color: red;
@@ -256,8 +257,21 @@ button:not(.active) {
 [data-active="true"] {
     border: 2px solid goldenrod;
 }
-/* =========================== Ship Corners ======================== */
+.square.hit:before {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+    height: min(20px, 2vw);
+    width: min(20px, 2vw);
 
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-image: url('assets/hit.png');
+    mask-image: url('assets/hit.png');
+    background-color: red;
+}
+
+/* =========================== Ship Corners ======================== */
 :not(.hidden)>.ship:not(.cornerTL),
 .ship.sunk:not(.cornerTL) {
     border-top-left-radius: 20px;
