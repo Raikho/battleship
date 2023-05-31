@@ -204,6 +204,8 @@ export default class Game {
     }   
     
     async autoAttack() {
+        document.body.style.cursor = 'progress';
+
         let response = {status: 'failure', result: null};
         while (response.result !== 'empty square') {
             response = await this.attackAndWait(1000);
@@ -230,6 +232,7 @@ export default class Game {
                     break;
             }
         }
+        document.body.style.cursor = 'default';
     }
 
     async attackAndWait(milliseconds) {
