@@ -189,13 +189,15 @@ export default class Game {
                         player.updateSunkModels();
                         DOM.post(`${fullName} has sunk a ship!`);
                         DOM.postNext(`${fullName}, continue attacking.`);
-                        thump.play();
+                        // thump.play();
+                        sonar.play();
                         break;
                     case 'all enemy ships sunk':
                         player.updateSunkModels();
                         DOM.post(`${fullName} has sunk all enemy ships! ${fullName} wins!`);
                         this.updateState('results');
-                        thump.play(); // TODO
+                        // thump.play(); // TODO
+                        sonar.play();
                         return;
                 }
                 this.update();
@@ -223,11 +225,13 @@ export default class Game {
                 case 'enemy ship sunk':
                     this.players[0].updateSunkModels();
                     DOM.post(`The computer has sunk a ship!`);
+                    sonar.play();
                     this.update();
                     break;
                 case 'all enemy ships sunk':
                     this.players[0].updateSunkModels();
-                    DOM.post(`The computerhas sunk all enemy ships! The computer wins!`);
+                    DOM.post(`The computer has sunk all enemy ships! The computer wins!`);
+                    sonar.play();
                     this.updateState('results');
                     break;
             }
