@@ -19,7 +19,7 @@ export default class Ship {
     hit(x, y) {
         this.segments.forEach(segment => {
             if (x == segment.x && y == segment.y) {
-                segment.isHit = true;
+                segment.hit = true;
             }
         });
         if (this.isSunk())
