@@ -10,6 +10,8 @@ export default class Gameboard {
     }
 
     addShip(x, y, length = 1, shape = 'vertical', index) {
+        if (index === undefined) return {status: 'failure', message: 'no index'};
+
         if (isOutOfBounds(x, y))
             return {status: 'failure', message: 'ship out of bounds'};
         
@@ -29,14 +31,6 @@ export default class Gameboard {
             }
 
         this.ships[index] = ship;
-        // let seg0 = ship.segments[0]; // debug
-        // let seg1 = ship.segments[1]; // debug
-        // seg0.hit = true; // DEBUG
-        // seg1.hit = true; // DEBUG
-        // seg0.sunk = ship.isSunk(); // DEBUG
-        // seg1.sunk = ship.isSunk(); // DEBUG
-        // this.hits.push({x: seg0.x, y: seg0.y}); // debug
-        // this.hits.push({x: seg1.x, y: seg1.y}); // debug
         return {status: 'success'};
     }
 
@@ -62,6 +56,8 @@ export default class Gameboard {
         let response = {status: 'success', result: 'empty square'};
 
         for (let ship of this.ships) {
+            if (!ship)
+                continue;
             for (let segment of ship.segments) {
                 if (segment.x == x && segment.y == y) {
                     segment.hit = true;
@@ -116,9 +112,12 @@ export default class Gameboard {
     }
 
     areShipsSunk() {
-        for (let ship of this.ships)
-            if (!ship.isSunk())
+        for (let ship of this.ships) {
+            if (!ship)
+                continue;
+            if (!ship || !ship.isSunk())
                 return false;
+        }
         return true;
     }
 
@@ -144,7 +143,7 @@ export default class Gameboard {
     }
 
     clear() {
-        this.ships = [];
+        this.ships = Array.apply(null, Array(5));
         this.hits = [];
     }
 }
